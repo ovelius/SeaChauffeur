@@ -1,0 +1,2 @@
+C:\Users\Anka\Desktop\nanopb-0.3.9.3-windows-x86\generator-bin\protoc.exe --nanopb_out=.\Arduino\sea_chauffeur\ messages.proto
+C:\Users\Anka\Desktop\nanopb-0.3.9.3-windows-x86\generator-bin\protoc.exe --javalite_out=.\app\src\main\java\ messages.proto

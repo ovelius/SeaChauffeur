@@ -1,0 +1,1 @@
+For some reason pb.h needs to be in Arduino\libraries\Nanopb :(

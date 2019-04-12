@@ -1,0 +1,15 @@
+syntax = "proto2";
+
+option java_package = "se.locutus.sea_chauffeur";
+
+message SeaRequest {
+  optional NavRequest nav_request = 1;
+}
+
+message SeaResponse {
+}
+
+message NavRequest {
+  optional float lat = 1;
+  optional float lng = 2;
+}
