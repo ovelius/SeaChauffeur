@@ -17,6 +17,8 @@ import android.bluetooth.BluetoothSocket
 import android.os.Handler
 import android.widget.Button
 import android.widget.Toast
+import com.google.android.gms.maps.model.Marker
+import se.locutus.sea_chauffeur.Messages
 import java.io.InputStream
 import java.io.OutputStream
 import java.io.IOException
@@ -44,26 +46,39 @@ class NavigationActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
+
+    var currentDestination : Marker? = null
+
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-
-        // Add a marker in Sydney and move the camera
-        val sydney = LatLng(-34.0, 151.0)
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        mMap.setOnMapClickListener { latLng ->
+            if (currentDestination != null) {
+                currentDestination!!.remove()
+            }
+            currentDestination = mMap.addMarker(MarkerOptions().position(latLng).title("Current destination"))
+            sendNewDestination(latLng)
+        }
 
         findBT()
         openBT()
         beginListenForData()
+    }
+
+    fun sendNewDestination(latLng : LatLng) {
+        val request = Messages.SeaRequest.newBuilder().setNavRequest(
+            Messages.NavRequest.newBuilder()
+                .setLat(latLng.latitude.toFloat())
+                .setLng(latLng.longitude.toFloat()))
+            .build()
+        if (mmOutputStream != null) {
+            val array = request.toByteArray()
+            mmOutputStream!!.write(array.size)
+            mmOutputStream!!.write(array)
+
+            Toast.makeText(this, "Sent new destination ${request.navRequest.lat} ${request.navRequest.lng}",
+                Toast.LENGTH_SHORT).show()
+        }
+
     }
 
     var mBluetoothAdapter: BluetoothAdapter? = null
