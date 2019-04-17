@@ -8,6 +8,72 @@ public final class Messages {
   public static void registerAllExtensions(
       com.google.protobuf.ExtensionRegistryLite registry) {
   }
+  /**
+   * Protobuf enum {@code ResponseCode}
+   */
+  public enum ResponseCode
+      implements com.google.protobuf.Internal.EnumLite {
+    /**
+     * <code>UKNOWN = 0;</code>
+     */
+    UKNOWN(0),
+    /**
+     * <code>OK = 1;</code>
+     */
+    OK(1),
+    ;
+
+    /**
+     * <code>UKNOWN = 0;</code>
+     */
+    public static final int UKNOWN_VALUE = 0;
+    /**
+     * <code>OK = 1;</code>
+     */
+    public static final int OK_VALUE = 1;
+
+
+    public final int getNumber() {
+      return value;
+    }
+
+    /**
+     * @deprecated Use {@link #forNumber(int)} instead.
+     */
+    @java.lang.Deprecated
+    public static ResponseCode valueOf(int value) {
+      return forNumber(value);
+    }
+
+    public static ResponseCode forNumber(int value) {
+      switch (value) {
+        case 0: return UKNOWN;
+        case 1: return OK;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<ResponseCode>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static final com.google.protobuf.Internal.EnumLiteMap<
+        ResponseCode> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<ResponseCode>() {
+            public ResponseCode findValueByNumber(int number) {
+              return ResponseCode.forNumber(number);
+            }
+          };
+
+    private final int value;
+
+    private ResponseCode(int value) {
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:ResponseCode)
+  }
+
   public interface SeaRequestOrBuilder extends
       // @@protoc_insertion_point(interface_extends:SeaRequest)
       com.google.protobuf.MessageLiteOrBuilder {
@@ -342,6 +408,15 @@ public final class Messages {
   public interface SeaResponseOrBuilder extends
       // @@protoc_insertion_point(interface_extends:SeaResponse)
       com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>optional .ResponseCode response_code = 1;</code>
+     */
+    boolean hasResponseCode();
+    /**
+     * <code>optional .ResponseCode response_code = 1;</code>
+     */
+    se.locutus.sea_chauffeur.Messages.ResponseCode getResponseCode();
   }
   /**
    * Protobuf type {@code SeaResponse}
@@ -353,8 +428,45 @@ public final class Messages {
       SeaResponseOrBuilder {
     private SeaResponse() {
     }
+    private int bitField0_;
+    public static final int RESPONSE_CODE_FIELD_NUMBER = 1;
+    private int responseCode_;
+    /**
+     * <code>optional .ResponseCode response_code = 1;</code>
+     */
+    public boolean hasResponseCode() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional .ResponseCode response_code = 1;</code>
+     */
+    public se.locutus.sea_chauffeur.Messages.ResponseCode getResponseCode() {
+      se.locutus.sea_chauffeur.Messages.ResponseCode result = se.locutus.sea_chauffeur.Messages.ResponseCode.forNumber(responseCode_);
+      return result == null ? se.locutus.sea_chauffeur.Messages.ResponseCode.UKNOWN : result;
+    }
+    /**
+     * <code>optional .ResponseCode response_code = 1;</code>
+     */
+    private void setResponseCode(se.locutus.sea_chauffeur.Messages.ResponseCode value) {
+      if (value == null) {
+        throw new NullPointerException();
+      }
+      bitField0_ |= 0x00000001;
+      responseCode_ = value.getNumber();
+    }
+    /**
+     * <code>optional .ResponseCode response_code = 1;</code>
+     */
+    private void clearResponseCode() {
+      bitField0_ = (bitField0_ & ~0x00000001);
+      responseCode_ = 0;
+    }
+
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeEnum(1, responseCode_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -363,6 +475,10 @@ public final class Messages {
       if (size != -1) return size;
 
       size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, responseCode_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSerializedSize = size;
       return size;
@@ -450,6 +566,35 @@ public final class Messages {
       }
 
 
+      /**
+       * <code>optional .ResponseCode response_code = 1;</code>
+       */
+      public boolean hasResponseCode() {
+        return instance.hasResponseCode();
+      }
+      /**
+       * <code>optional .ResponseCode response_code = 1;</code>
+       */
+      public se.locutus.sea_chauffeur.Messages.ResponseCode getResponseCode() {
+        return instance.getResponseCode();
+      }
+      /**
+       * <code>optional .ResponseCode response_code = 1;</code>
+       */
+      public Builder setResponseCode(se.locutus.sea_chauffeur.Messages.ResponseCode value) {
+        copyOnWrite();
+        instance.setResponseCode(value);
+        return this;
+      }
+      /**
+       * <code>optional .ResponseCode response_code = 1;</code>
+       */
+      public Builder clearResponseCode() {
+        copyOnWrite();
+        instance.clearResponseCode();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:SeaResponse)
     }
     protected final Object dynamicMethod(
@@ -471,8 +616,11 @@ public final class Messages {
         case VISIT: {
           Visitor visitor = (Visitor) arg0;
           se.locutus.sea_chauffeur.Messages.SeaResponse other = (se.locutus.sea_chauffeur.Messages.SeaResponse) arg1;
+          responseCode_ = visitor.visitInt(hasResponseCode(), responseCode_,
+              other.hasResponseCode(), other.responseCode_);
           if (visitor == com.google.protobuf.GeneratedMessageLite.MergeFromVisitor
               .INSTANCE) {
+            bitField0_ |= other.bitField0_;
           }
           return this;
         }
@@ -492,6 +640,17 @@ public final class Messages {
                 default: {
                   if (!parseUnknownField(tag, input)) {
                     done = true;
+                  }
+                  break;
+                }
+                case 8: {
+                  int rawValue = input.readEnum();
+                  se.locutus.sea_chauffeur.Messages.ResponseCode value = se.locutus.sea_chauffeur.Messages.ResponseCode.forNumber(rawValue);
+                  if (value == null) {
+                    super.mergeVarintField(1, rawValue);
+                  } else {
+                    bitField0_ |= 0x00000001;
+                    responseCode_ = rawValue;
                   }
                   break;
                 }

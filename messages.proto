@@ -6,7 +6,13 @@ message SeaRequest {
   optional NavRequest nav_request = 1;
 }
 
+enum ResponseCode {
+  UKNOWN = 0;
+  OK = 1;
+}
+
 message SeaResponse {
+  optional ResponseCode response_code = 1;
 }
 
 message NavRequest {

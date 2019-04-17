@@ -3,14 +3,12 @@ package se.locutus.seachauffeur
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 
-import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import android.bluetooth.BluetoothDevice
-import java.nio.file.Files.size
 import android.bluetooth.BluetoothAdapter
 import android.content.Intent
 import android.bluetooth.BluetoothSocket
@@ -22,6 +20,7 @@ import se.locutus.sea_chauffeur.Messages
 import java.io.InputStream
 import java.io.OutputStream
 import java.io.IOException
+import java.lang.Exception
 import java.util.*
 
 
@@ -29,6 +28,7 @@ class NavigationActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var mButton : Button
+    private val handler = Handler()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +44,8 @@ class NavigationActivity : AppCompatActivity(), OnMapReadyCallback {
                 "", Toast.LENGTH_SHORT).show()
             mmOutputStream!!.write("hello".toByteArray())
         }
+
+        createBtConnection()
     }
 
 
@@ -58,10 +60,27 @@ class NavigationActivity : AppCompatActivity(), OnMapReadyCallback {
             currentDestination = mMap.addMarker(MarkerOptions().position(latLng).title("Current destination"))
             sendNewDestination(latLng)
         }
+    }
 
-        findBT()
-        openBT()
-        beginListenForData()
+    fun createBtConnection() {
+        var retry = false
+        try {
+            if (!findBT()) {
+                Toast.makeText(this, "Did not find bluetooth device.. will retry :)" +
+                        "", Toast.LENGTH_SHORT).show()
+                retry = true
+            } else {
+                openBTAndListenForData()
+            }
+        } catch (e : Exception) {
+            e.printStackTrace()
+            retry = true
+        }
+        if (retry) {
+            handler.postDelayed({
+                createBtConnection()
+            }, 200)
+        }
     }
 
     fun sendNewDestination(latLng : LatLng) {
@@ -87,17 +106,15 @@ class NavigationActivity : AppCompatActivity(), OnMapReadyCallback {
     var mmOutputStream: OutputStream? = null
     var mmInputStream: InputStream? = null
     var workerThread: Thread? = null
-    var readBuffer: ByteArray = ByteArray(1024)
-    var readBufferPosition: Int = 0
-    var counter: Int = 0
     @Volatile
     var stopWorker: Boolean = false
 
-    fun findBT() {
+    fun findBT() : Boolean {
+        mmDevice = null
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
         if (mBluetoothAdapter == null) {
             Toast.makeText(this, "No bluetooth adapter available", Toast.LENGTH_SHORT).show()
-            return
+            return false
         }
 
         if (!mBluetoothAdapter!!.isEnabled) {
@@ -114,12 +131,11 @@ class NavigationActivity : AppCompatActivity(), OnMapReadyCallback {
                 }
             }
         }
-        Toast.makeText(this, "Bluetooth device found :)" +
-                "", Toast.LENGTH_SHORT).show()
+        return mmDevice != null
     }
 
     @Throws(IOException::class)
-    fun openBT() {
+    fun openBTAndListenForData() {
         val uuid = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB") //Standard SerialPortService ID
         mmSocket = mmDevice!!.createRfcommSocketToServiceRecord(uuid)
         mmSocket!!.connect()
@@ -132,36 +148,20 @@ class NavigationActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     fun beginListenForData() {
-        val handler = Handler()
-        val delimiter: Byte = 10 //This is the ASCII code for a newline character
-
         stopWorker = false
-        readBufferPosition = 0
         workerThread = Thread(Runnable {
             while (!Thread.currentThread().isInterrupted && !stopWorker) {
                 try {
-                    val bytesAvailable = mmInputStream!!.available()
-                    if (bytesAvailable > 0) {
-                        val packetBytes = ByteArray(bytesAvailable)
-                        mmInputStream!!.read(packetBytes)
-                        for (i in 0 until bytesAvailable) {
-                            val b = packetBytes[i]
-                            if (b == delimiter) {
-                                val encodedBytes = ByteArray(readBufferPosition)
-                                System.arraycopy(readBuffer, 0, encodedBytes, 0, encodedBytes.size)
-                                val data = String(encodedBytes)
-                                readBufferPosition = 0
-
-                                handler.post{
-                                    Toast.makeText(this, "Bluetooth data: $data", Toast.LENGTH_SHORT).show()
-                                }
-                            } else {
-                                readBuffer[readBufferPosition++] = b
-                            }
-                        }
+                    val response = Messages.SeaResponse.parseDelimitedFrom(mmInputStream)
+                    handler.post{
+                        Toast.makeText(this, "Bluetooth data response code: ${response.responseCode}", Toast.LENGTH_SHORT).show()
                     }
                 } catch (ex: IOException) {
-                    stopWorker = true
+                    while (mmInputStream!!.available()> 0) {
+                        System.err.println("Buffer flush read ${mmInputStream!!.read()}")
+                    }
+                    ex.printStackTrace()
+                   // stopWorker = true
                 }
 
             }

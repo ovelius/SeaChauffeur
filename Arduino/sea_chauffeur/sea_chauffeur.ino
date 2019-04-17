@@ -11,14 +11,7 @@ TinyGPSPlus gps;
 
 void setup() {
   Serial.begin(9600);
-
-
   blueToothSerial.begin(9600);
-
-//  request.nav_request.lat = 1.0f;
-//  pb_ostream_t stream = pb_ostream_from_buffer(buffer, sizeof(buffer));
-  //bool status = pb_encode(&stream, SeaRequest_fields, &request);
- 
 }
 
 SeaRequest request = SeaRequest_init_zero;
@@ -30,6 +23,7 @@ bool readCommand() {
   while (blueToothSerial.available() > 0) {
     if (command_size <= 0) {
       buffer_pos = 0;
+      request = SeaRequest_init_zero;
       command_size = blueToothSerial.read();
       Serial.print("Reading request of size ");
       Serial.print(command_size);
@@ -52,12 +46,31 @@ bool readCommand() {
   return false;
 }
 
+SeaResponse response = SeaResponse_init_zero;
+     
 void loop () {
   if (readCommand()) {
-     Serial.print("Got command lat/lng ");
-     Serial.print(request.nav_request.lat);
+     Serial.print("Got command lat ");
+     Serial.print(request.nav_request.lat, 8);
+     Serial.print(" lng ");
+     Serial.print(request.nav_request.lng, 8);
      Serial.println();
-     delay(50);
-     //blueToothSerial.println("hello world");
+
+     uint8_t response_buffer[128];
+     response = SeaResponse_init_zero;
+     response.response_code = ResponseCode_OK;
+     pb_ostream_t stream = pb_ostream_from_buffer(response_buffer, sizeof(response_buffer));
+     bool status = pb_encode_delimited(&stream, SeaResponse_fields, &response);
+     if (!status) {
+       Serial.println("Failed to encode proto response message");
+       return;
+     }
+     // blueToothSerial.write(stream.bytes_written);
+     for (int i = 0; i < stream.bytes_written; i++) {
+       blueToothSerial.write(response_buffer[i]);
+     }
+     Serial.print("Wrote response of size ");
+     Serial.print(stream.bytes_written);
+     Serial.println(" bytes.");
   }
 }
