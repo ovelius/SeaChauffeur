@@ -74,27 +74,31 @@ class NavigationActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         } catch (e : Exception) {
             e.printStackTrace()
+            mmDevice = null
+            if (mmSocket != null) {
+                mmSocket!!.close()
+            }
             retry = true
         }
         if (retry) {
             handler.postDelayed({
                 createBtConnection()
-            }, 200)
+            }, 2000)
         }
     }
 
     fun sendNewDestination(latLng : LatLng) {
         val request = Messages.SeaRequest.newBuilder().setNavRequest(
             Messages.NavRequest.newBuilder()
-                .setLat(latLng.latitude.toFloat())
-                .setLng(latLng.longitude.toFloat()))
+                .setLocation(Messages.Location.newBuilder().setLat(latLng.latitude.toFloat())
+                    .setLng(latLng.longitude.toFloat())))
             .build()
         if (mmOutputStream != null) {
             val array = request.toByteArray()
             mmOutputStream!!.write(array.size)
             mmOutputStream!!.write(array)
 
-            Toast.makeText(this, "Sent new destination ${request.navRequest.lat} ${request.navRequest.lng}",
+            Toast.makeText(this, "Sent new destination ${request.navRequest.location.lat} ${request.navRequest.location.lng}",
                 Toast.LENGTH_SHORT).show()
         }
 
@@ -154,7 +158,7 @@ class NavigationActivity : AppCompatActivity(), OnMapReadyCallback {
                 try {
                     val response = Messages.SeaResponse.parseDelimitedFrom(mmInputStream)
                     handler.post{
-                        Toast.makeText(this, "Bluetooth data response code: ${response.responseCode}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Bluetooth data response code: ${response.responseCode} current destination ${response.currentDestination.lat} ${response.currentDestination.lng}", Toast.LENGTH_SHORT).show()
                     }
                 } catch (ex: IOException) {
                     while (mmInputStream!!.available()> 0) {

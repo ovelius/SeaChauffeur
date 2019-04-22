@@ -12,10 +12,16 @@ enum ResponseCode {
 }
 
 message SeaResponse {
-  optional ResponseCode response_code = 1;
+  required ResponseCode response_code = 1;
+  optional Location current_location = 2;
+  optional Location current_destination = 3;
 }
 
 message NavRequest {
-  optional float lat = 1;
-  optional float lng = 2;
+  optional Location location = 1;
+}
+
+message Location {
+  required float lat = 1;
+  required float lng = 2;
 }

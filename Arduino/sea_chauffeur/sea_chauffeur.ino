@@ -9,6 +9,8 @@
 SoftwareSerial blueToothSerial(2, 3);
 TinyGPSPlus gps;
 
+SeaResponse response = SeaResponse_init_zero;
+
 void setup() {
   Serial.begin(9600);
   blueToothSerial.begin(9600);
@@ -46,31 +48,35 @@ bool readCommand() {
   return false;
 }
 
-SeaResponse response = SeaResponse_init_zero;
-     
+    
 void loop () {
   if (readCommand()) {
      Serial.print("Got command lat ");
-     Serial.print(request.nav_request.lat, 8);
+     Serial.print(request.nav_request.location.lat, 8);
      Serial.print(" lng ");
-     Serial.print(request.nav_request.lng, 8);
+     Serial.print(request.nav_request.location.lng, 8);
      Serial.println();
 
      uint8_t response_buffer[128];
      response = SeaResponse_init_zero;
      response.response_code = ResponseCode_OK;
-     pb_ostream_t stream = pb_ostream_from_buffer(response_buffer, sizeof(response_buffer));
-     bool status = pb_encode_delimited(&stream, SeaResponse_fields, &response);
+     response.current_destination.lat = 123.0f;
+     response.current_destination.lng = 321.0f;
+     pb_ostream_t ostream = pb_ostream_from_buffer(response_buffer, sizeof(response_buffer));
+     // Can't encode optional fields here...
+     bool status = pb_encode_delimited(&ostream, SeaResponse_fields, &response);
      if (!status) {
-       Serial.println("Failed to encode proto response message");
+       Serial.println("Failed to encode proto response message! Error is: ");
+       Serial.print(ostream.errmsg);
+       Serial.println();
        return;
      }
-     // blueToothSerial.write(stream.bytes_written);
-     for (int i = 0; i < stream.bytes_written; i++) {
+
+     for (int i = 0; i < ostream.bytes_written; i++) {
        blueToothSerial.write(response_buffer[i]);
      }
      Serial.print("Wrote response of size ");
-     Serial.print(stream.bytes_written);
+     Serial.print(ostream.bytes_written);
      Serial.println(" bytes.");
   }
 }

@@ -301,6 +301,7 @@ public final class Messages {
 
       // @@protoc_insertion_point(builder_scope:SeaRequest)
     }
+    private byte memoizedIsInitialized = -1;
     protected final Object dynamicMethod(
         com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
         Object arg0, Object arg1) {
@@ -309,7 +310,22 @@ public final class Messages {
           return new se.locutus.sea_chauffeur.Messages.SeaRequest();
         }
         case IS_INITIALIZED: {
+          byte isInitialized = memoizedIsInitialized;
+          if (isInitialized == 1) return DEFAULT_INSTANCE;
+          if (isInitialized == 0) return null;
+
+          boolean shouldMemoize = ((Boolean) arg0).booleanValue();
+          if (hasNavRequest()) {
+            if (!getNavRequest().isInitialized()) {
+              if (shouldMemoize) {
+                memoizedIsInitialized = 0;
+              }
+              return null;
+            }
+          }
+          if (shouldMemoize) memoizedIsInitialized = 1;
           return DEFAULT_INSTANCE;
+
         }
         case MAKE_IMMUTABLE: {
           return null;
@@ -410,13 +426,31 @@ public final class Messages {
       com.google.protobuf.MessageLiteOrBuilder {
 
     /**
-     * <code>optional .ResponseCode response_code = 1;</code>
+     * <code>required .ResponseCode response_code = 1;</code>
      */
     boolean hasResponseCode();
     /**
-     * <code>optional .ResponseCode response_code = 1;</code>
+     * <code>required .ResponseCode response_code = 1;</code>
      */
     se.locutus.sea_chauffeur.Messages.ResponseCode getResponseCode();
+
+    /**
+     * <code>optional .Location current_location = 2;</code>
+     */
+    boolean hasCurrentLocation();
+    /**
+     * <code>optional .Location current_location = 2;</code>
+     */
+    se.locutus.sea_chauffeur.Messages.Location getCurrentLocation();
+
+    /**
+     * <code>optional .Location current_destination = 3;</code>
+     */
+    boolean hasCurrentDestination();
+    /**
+     * <code>optional .Location current_destination = 3;</code>
+     */
+    se.locutus.sea_chauffeur.Messages.Location getCurrentDestination();
   }
   /**
    * Protobuf type {@code SeaResponse}
@@ -432,20 +466,20 @@ public final class Messages {
     public static final int RESPONSE_CODE_FIELD_NUMBER = 1;
     private int responseCode_;
     /**
-     * <code>optional .ResponseCode response_code = 1;</code>
+     * <code>required .ResponseCode response_code = 1;</code>
      */
     public boolean hasResponseCode() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>optional .ResponseCode response_code = 1;</code>
+     * <code>required .ResponseCode response_code = 1;</code>
      */
     public se.locutus.sea_chauffeur.Messages.ResponseCode getResponseCode() {
       se.locutus.sea_chauffeur.Messages.ResponseCode result = se.locutus.sea_chauffeur.Messages.ResponseCode.forNumber(responseCode_);
       return result == null ? se.locutus.sea_chauffeur.Messages.ResponseCode.UKNOWN : result;
     }
     /**
-     * <code>optional .ResponseCode response_code = 1;</code>
+     * <code>required .ResponseCode response_code = 1;</code>
      */
     private void setResponseCode(se.locutus.sea_chauffeur.Messages.ResponseCode value) {
       if (value == null) {
@@ -455,17 +489,127 @@ public final class Messages {
       responseCode_ = value.getNumber();
     }
     /**
-     * <code>optional .ResponseCode response_code = 1;</code>
+     * <code>required .ResponseCode response_code = 1;</code>
      */
     private void clearResponseCode() {
       bitField0_ = (bitField0_ & ~0x00000001);
       responseCode_ = 0;
     }
 
+    public static final int CURRENT_LOCATION_FIELD_NUMBER = 2;
+    private se.locutus.sea_chauffeur.Messages.Location currentLocation_;
+    /**
+     * <code>optional .Location current_location = 2;</code>
+     */
+    public boolean hasCurrentLocation() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional .Location current_location = 2;</code>
+     */
+    public se.locutus.sea_chauffeur.Messages.Location getCurrentLocation() {
+      return currentLocation_ == null ? se.locutus.sea_chauffeur.Messages.Location.getDefaultInstance() : currentLocation_;
+    }
+    /**
+     * <code>optional .Location current_location = 2;</code>
+     */
+    private void setCurrentLocation(se.locutus.sea_chauffeur.Messages.Location value) {
+      if (value == null) {
+        throw new NullPointerException();
+      }
+      currentLocation_ = value;
+      bitField0_ |= 0x00000002;
+      }
+    /**
+     * <code>optional .Location current_location = 2;</code>
+     */
+    private void setCurrentLocation(
+        se.locutus.sea_chauffeur.Messages.Location.Builder builderForValue) {
+      currentLocation_ = builderForValue.build();
+      bitField0_ |= 0x00000002;
+    }
+    /**
+     * <code>optional .Location current_location = 2;</code>
+     */
+    private void mergeCurrentLocation(se.locutus.sea_chauffeur.Messages.Location value) {
+      if (currentLocation_ != null &&
+          currentLocation_ != se.locutus.sea_chauffeur.Messages.Location.getDefaultInstance()) {
+        currentLocation_ =
+          se.locutus.sea_chauffeur.Messages.Location.newBuilder(currentLocation_).mergeFrom(value).buildPartial();
+      } else {
+        currentLocation_ = value;
+      }
+      bitField0_ |= 0x00000002;
+    }
+    /**
+     * <code>optional .Location current_location = 2;</code>
+     */
+    private void clearCurrentLocation() {  currentLocation_ = null;
+      bitField0_ = (bitField0_ & ~0x00000002);
+    }
+
+    public static final int CURRENT_DESTINATION_FIELD_NUMBER = 3;
+    private se.locutus.sea_chauffeur.Messages.Location currentDestination_;
+    /**
+     * <code>optional .Location current_destination = 3;</code>
+     */
+    public boolean hasCurrentDestination() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional .Location current_destination = 3;</code>
+     */
+    public se.locutus.sea_chauffeur.Messages.Location getCurrentDestination() {
+      return currentDestination_ == null ? se.locutus.sea_chauffeur.Messages.Location.getDefaultInstance() : currentDestination_;
+    }
+    /**
+     * <code>optional .Location current_destination = 3;</code>
+     */
+    private void setCurrentDestination(se.locutus.sea_chauffeur.Messages.Location value) {
+      if (value == null) {
+        throw new NullPointerException();
+      }
+      currentDestination_ = value;
+      bitField0_ |= 0x00000004;
+      }
+    /**
+     * <code>optional .Location current_destination = 3;</code>
+     */
+    private void setCurrentDestination(
+        se.locutus.sea_chauffeur.Messages.Location.Builder builderForValue) {
+      currentDestination_ = builderForValue.build();
+      bitField0_ |= 0x00000004;
+    }
+    /**
+     * <code>optional .Location current_destination = 3;</code>
+     */
+    private void mergeCurrentDestination(se.locutus.sea_chauffeur.Messages.Location value) {
+      if (currentDestination_ != null &&
+          currentDestination_ != se.locutus.sea_chauffeur.Messages.Location.getDefaultInstance()) {
+        currentDestination_ =
+          se.locutus.sea_chauffeur.Messages.Location.newBuilder(currentDestination_).mergeFrom(value).buildPartial();
+      } else {
+        currentDestination_ = value;
+      }
+      bitField0_ |= 0x00000004;
+    }
+    /**
+     * <code>optional .Location current_destination = 3;</code>
+     */
+    private void clearCurrentDestination() {  currentDestination_ = null;
+      bitField0_ = (bitField0_ & ~0x00000004);
+    }
+
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeEnum(1, responseCode_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeMessage(2, getCurrentLocation());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeMessage(3, getCurrentDestination());
       }
       unknownFields.writeTo(output);
     }
@@ -478,6 +622,14 @@ public final class Messages {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(1, responseCode_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, getCurrentLocation());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, getCurrentDestination());
       }
       size += unknownFields.getSerializedSize();
       memoizedSerializedSize = size;
@@ -567,19 +719,19 @@ public final class Messages {
 
 
       /**
-       * <code>optional .ResponseCode response_code = 1;</code>
+       * <code>required .ResponseCode response_code = 1;</code>
        */
       public boolean hasResponseCode() {
         return instance.hasResponseCode();
       }
       /**
-       * <code>optional .ResponseCode response_code = 1;</code>
+       * <code>required .ResponseCode response_code = 1;</code>
        */
       public se.locutus.sea_chauffeur.Messages.ResponseCode getResponseCode() {
         return instance.getResponseCode();
       }
       /**
-       * <code>optional .ResponseCode response_code = 1;</code>
+       * <code>required .ResponseCode response_code = 1;</code>
        */
       public Builder setResponseCode(se.locutus.sea_chauffeur.Messages.ResponseCode value) {
         copyOnWrite();
@@ -587,7 +739,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>optional .ResponseCode response_code = 1;</code>
+       * <code>required .ResponseCode response_code = 1;</code>
        */
       public Builder clearResponseCode() {
         copyOnWrite();
@@ -595,8 +747,99 @@ public final class Messages {
         return this;
       }
 
+      /**
+       * <code>optional .Location current_location = 2;</code>
+       */
+      public boolean hasCurrentLocation() {
+        return instance.hasCurrentLocation();
+      }
+      /**
+       * <code>optional .Location current_location = 2;</code>
+       */
+      public se.locutus.sea_chauffeur.Messages.Location getCurrentLocation() {
+        return instance.getCurrentLocation();
+      }
+      /**
+       * <code>optional .Location current_location = 2;</code>
+       */
+      public Builder setCurrentLocation(se.locutus.sea_chauffeur.Messages.Location value) {
+        copyOnWrite();
+        instance.setCurrentLocation(value);
+        return this;
+        }
+      /**
+       * <code>optional .Location current_location = 2;</code>
+       */
+      public Builder setCurrentLocation(
+          se.locutus.sea_chauffeur.Messages.Location.Builder builderForValue) {
+        copyOnWrite();
+        instance.setCurrentLocation(builderForValue);
+        return this;
+      }
+      /**
+       * <code>optional .Location current_location = 2;</code>
+       */
+      public Builder mergeCurrentLocation(se.locutus.sea_chauffeur.Messages.Location value) {
+        copyOnWrite();
+        instance.mergeCurrentLocation(value);
+        return this;
+      }
+      /**
+       * <code>optional .Location current_location = 2;</code>
+       */
+      public Builder clearCurrentLocation() {  copyOnWrite();
+        instance.clearCurrentLocation();
+        return this;
+      }
+
+      /**
+       * <code>optional .Location current_destination = 3;</code>
+       */
+      public boolean hasCurrentDestination() {
+        return instance.hasCurrentDestination();
+      }
+      /**
+       * <code>optional .Location current_destination = 3;</code>
+       */
+      public se.locutus.sea_chauffeur.Messages.Location getCurrentDestination() {
+        return instance.getCurrentDestination();
+      }
+      /**
+       * <code>optional .Location current_destination = 3;</code>
+       */
+      public Builder setCurrentDestination(se.locutus.sea_chauffeur.Messages.Location value) {
+        copyOnWrite();
+        instance.setCurrentDestination(value);
+        return this;
+        }
+      /**
+       * <code>optional .Location current_destination = 3;</code>
+       */
+      public Builder setCurrentDestination(
+          se.locutus.sea_chauffeur.Messages.Location.Builder builderForValue) {
+        copyOnWrite();
+        instance.setCurrentDestination(builderForValue);
+        return this;
+      }
+      /**
+       * <code>optional .Location current_destination = 3;</code>
+       */
+      public Builder mergeCurrentDestination(se.locutus.sea_chauffeur.Messages.Location value) {
+        copyOnWrite();
+        instance.mergeCurrentDestination(value);
+        return this;
+      }
+      /**
+       * <code>optional .Location current_destination = 3;</code>
+       */
+      public Builder clearCurrentDestination() {  copyOnWrite();
+        instance.clearCurrentDestination();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:SeaResponse)
     }
+    private byte memoizedIsInitialized = -1;
     protected final Object dynamicMethod(
         com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
         Object arg0, Object arg1) {
@@ -605,7 +848,36 @@ public final class Messages {
           return new se.locutus.sea_chauffeur.Messages.SeaResponse();
         }
         case IS_INITIALIZED: {
+          byte isInitialized = memoizedIsInitialized;
+          if (isInitialized == 1) return DEFAULT_INSTANCE;
+          if (isInitialized == 0) return null;
+
+          boolean shouldMemoize = ((Boolean) arg0).booleanValue();
+          if (!hasResponseCode()) {
+            if (shouldMemoize) {
+              memoizedIsInitialized = 0;
+            }
+            return null;
+          }
+          if (hasCurrentLocation()) {
+            if (!getCurrentLocation().isInitialized()) {
+              if (shouldMemoize) {
+                memoizedIsInitialized = 0;
+              }
+              return null;
+            }
+          }
+          if (hasCurrentDestination()) {
+            if (!getCurrentDestination().isInitialized()) {
+              if (shouldMemoize) {
+                memoizedIsInitialized = 0;
+              }
+              return null;
+            }
+          }
+          if (shouldMemoize) memoizedIsInitialized = 1;
           return DEFAULT_INSTANCE;
+
         }
         case MAKE_IMMUTABLE: {
           return null;
@@ -618,6 +890,8 @@ public final class Messages {
           se.locutus.sea_chauffeur.Messages.SeaResponse other = (se.locutus.sea_chauffeur.Messages.SeaResponse) arg1;
           responseCode_ = visitor.visitInt(hasResponseCode(), responseCode_,
               other.hasResponseCode(), other.responseCode_);
+          currentLocation_ = visitor.visitMessage(currentLocation_, other.currentLocation_);
+          currentDestination_ = visitor.visitMessage(currentDestination_, other.currentDestination_);
           if (visitor == com.google.protobuf.GeneratedMessageLite.MergeFromVisitor
               .INSTANCE) {
             bitField0_ |= other.bitField0_;
@@ -652,6 +926,32 @@ public final class Messages {
                     bitField0_ |= 0x00000001;
                     responseCode_ = rawValue;
                   }
+                  break;
+                }
+                case 18: {
+                  se.locutus.sea_chauffeur.Messages.Location.Builder subBuilder = null;
+                  if (((bitField0_ & 0x00000002) == 0x00000002)) {
+                    subBuilder = currentLocation_.toBuilder();
+                  }
+                  currentLocation_ = input.readMessage(se.locutus.sea_chauffeur.Messages.Location.parser(), extensionRegistry);
+                  if (subBuilder != null) {
+                    subBuilder.mergeFrom(currentLocation_);
+                    currentLocation_ = subBuilder.buildPartial();
+                  }
+                  bitField0_ |= 0x00000002;
+                  break;
+                }
+                case 26: {
+                  se.locutus.sea_chauffeur.Messages.Location.Builder subBuilder = null;
+                  if (((bitField0_ & 0x00000004) == 0x00000004)) {
+                    subBuilder = currentDestination_.toBuilder();
+                  }
+                  currentDestination_ = input.readMessage(se.locutus.sea_chauffeur.Messages.Location.parser(), extensionRegistry);
+                  if (subBuilder != null) {
+                    subBuilder.mergeFrom(currentDestination_);
+                    currentDestination_ = subBuilder.buildPartial();
+                  }
+                  bitField0_ |= 0x00000004;
                   break;
                 }
               }
@@ -705,22 +1005,13 @@ public final class Messages {
       com.google.protobuf.MessageLiteOrBuilder {
 
     /**
-     * <code>optional float lat = 1;</code>
+     * <code>optional .Location location = 1;</code>
      */
-    boolean hasLat();
+    boolean hasLocation();
     /**
-     * <code>optional float lat = 1;</code>
+     * <code>optional .Location location = 1;</code>
      */
-    float getLat();
-
-    /**
-     * <code>optional float lng = 2;</code>
-     */
-    boolean hasLng();
-    /**
-     * <code>optional float lng = 2;</code>
-     */
-    float getLng();
+    se.locutus.sea_chauffeur.Messages.Location getLocation();
   }
   /**
    * Protobuf type {@code NavRequest}
@@ -733,71 +1024,62 @@ public final class Messages {
     private NavRequest() {
     }
     private int bitField0_;
-    public static final int LAT_FIELD_NUMBER = 1;
-    private float lat_;
+    public static final int LOCATION_FIELD_NUMBER = 1;
+    private se.locutus.sea_chauffeur.Messages.Location location_;
     /**
-     * <code>optional float lat = 1;</code>
+     * <code>optional .Location location = 1;</code>
      */
-    public boolean hasLat() {
+    public boolean hasLocation() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>optional float lat = 1;</code>
+     * <code>optional .Location location = 1;</code>
      */
-    public float getLat() {
-      return lat_;
+    public se.locutus.sea_chauffeur.Messages.Location getLocation() {
+      return location_ == null ? se.locutus.sea_chauffeur.Messages.Location.getDefaultInstance() : location_;
     }
     /**
-     * <code>optional float lat = 1;</code>
+     * <code>optional .Location location = 1;</code>
      */
-    private void setLat(float value) {
+    private void setLocation(se.locutus.sea_chauffeur.Messages.Location value) {
+      if (value == null) {
+        throw new NullPointerException();
+      }
+      location_ = value;
       bitField0_ |= 0x00000001;
-      lat_ = value;
+      }
+    /**
+     * <code>optional .Location location = 1;</code>
+     */
+    private void setLocation(
+        se.locutus.sea_chauffeur.Messages.Location.Builder builderForValue) {
+      location_ = builderForValue.build();
+      bitField0_ |= 0x00000001;
     }
     /**
-     * <code>optional float lat = 1;</code>
+     * <code>optional .Location location = 1;</code>
      */
-    private void clearLat() {
+    private void mergeLocation(se.locutus.sea_chauffeur.Messages.Location value) {
+      if (location_ != null &&
+          location_ != se.locutus.sea_chauffeur.Messages.Location.getDefaultInstance()) {
+        location_ =
+          se.locutus.sea_chauffeur.Messages.Location.newBuilder(location_).mergeFrom(value).buildPartial();
+      } else {
+        location_ = value;
+      }
+      bitField0_ |= 0x00000001;
+    }
+    /**
+     * <code>optional .Location location = 1;</code>
+     */
+    private void clearLocation() {  location_ = null;
       bitField0_ = (bitField0_ & ~0x00000001);
-      lat_ = 0F;
-    }
-
-    public static final int LNG_FIELD_NUMBER = 2;
-    private float lng_;
-    /**
-     * <code>optional float lng = 2;</code>
-     */
-    public boolean hasLng() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>optional float lng = 2;</code>
-     */
-    public float getLng() {
-      return lng_;
-    }
-    /**
-     * <code>optional float lng = 2;</code>
-     */
-    private void setLng(float value) {
-      bitField0_ |= 0x00000002;
-      lng_ = value;
-    }
-    /**
-     * <code>optional float lng = 2;</code>
-     */
-    private void clearLng() {
-      bitField0_ = (bitField0_ & ~0x00000002);
-      lng_ = 0F;
     }
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeFloat(1, lat_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeFloat(2, lng_);
+        output.writeMessage(1, getLocation());
       }
       unknownFields.writeTo(output);
     }
@@ -809,11 +1091,7 @@ public final class Messages {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(1, lat_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(2, lng_);
+          .computeMessageSize(1, getLocation());
       }
       size += unknownFields.getSerializedSize();
       memoizedSerializedSize = size;
@@ -903,65 +1181,53 @@ public final class Messages {
 
 
       /**
-       * <code>optional float lat = 1;</code>
+       * <code>optional .Location location = 1;</code>
        */
-      public boolean hasLat() {
-        return instance.hasLat();
+      public boolean hasLocation() {
+        return instance.hasLocation();
       }
       /**
-       * <code>optional float lat = 1;</code>
+       * <code>optional .Location location = 1;</code>
        */
-      public float getLat() {
-        return instance.getLat();
+      public se.locutus.sea_chauffeur.Messages.Location getLocation() {
+        return instance.getLocation();
       }
       /**
-       * <code>optional float lat = 1;</code>
+       * <code>optional .Location location = 1;</code>
        */
-      public Builder setLat(float value) {
+      public Builder setLocation(se.locutus.sea_chauffeur.Messages.Location value) {
         copyOnWrite();
-        instance.setLat(value);
+        instance.setLocation(value);
+        return this;
+        }
+      /**
+       * <code>optional .Location location = 1;</code>
+       */
+      public Builder setLocation(
+          se.locutus.sea_chauffeur.Messages.Location.Builder builderForValue) {
+        copyOnWrite();
+        instance.setLocation(builderForValue);
         return this;
       }
       /**
-       * <code>optional float lat = 1;</code>
+       * <code>optional .Location location = 1;</code>
        */
-      public Builder clearLat() {
+      public Builder mergeLocation(se.locutus.sea_chauffeur.Messages.Location value) {
         copyOnWrite();
-        instance.clearLat();
-        return this;
-      }
-
-      /**
-       * <code>optional float lng = 2;</code>
-       */
-      public boolean hasLng() {
-        return instance.hasLng();
-      }
-      /**
-       * <code>optional float lng = 2;</code>
-       */
-      public float getLng() {
-        return instance.getLng();
-      }
-      /**
-       * <code>optional float lng = 2;</code>
-       */
-      public Builder setLng(float value) {
-        copyOnWrite();
-        instance.setLng(value);
+        instance.mergeLocation(value);
         return this;
       }
       /**
-       * <code>optional float lng = 2;</code>
+       * <code>optional .Location location = 1;</code>
        */
-      public Builder clearLng() {
-        copyOnWrite();
-        instance.clearLng();
+      public Builder clearLocation() {  copyOnWrite();
+        instance.clearLocation();
         return this;
       }
 
       // @@protoc_insertion_point(builder_scope:NavRequest)
     }
+    private byte memoizedIsInitialized = -1;
     protected final Object dynamicMethod(
         com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
         Object arg0, Object arg1) {
@@ -970,7 +1236,22 @@ public final class Messages {
           return new se.locutus.sea_chauffeur.Messages.NavRequest();
         }
         case IS_INITIALIZED: {
+          byte isInitialized = memoizedIsInitialized;
+          if (isInitialized == 1) return DEFAULT_INSTANCE;
+          if (isInitialized == 0) return null;
+
+          boolean shouldMemoize = ((Boolean) arg0).booleanValue();
+          if (hasLocation()) {
+            if (!getLocation().isInitialized()) {
+              if (shouldMemoize) {
+                memoizedIsInitialized = 0;
+              }
+              return null;
+            }
+          }
+          if (shouldMemoize) memoizedIsInitialized = 1;
           return DEFAULT_INSTANCE;
+
         }
         case MAKE_IMMUTABLE: {
           return null;
@@ -981,6 +1262,392 @@ public final class Messages {
         case VISIT: {
           Visitor visitor = (Visitor) arg0;
           se.locutus.sea_chauffeur.Messages.NavRequest other = (se.locutus.sea_chauffeur.Messages.NavRequest) arg1;
+          location_ = visitor.visitMessage(location_, other.location_);
+          if (visitor == com.google.protobuf.GeneratedMessageLite.MergeFromVisitor
+              .INSTANCE) {
+            bitField0_ |= other.bitField0_;
+          }
+          return this;
+        }
+        case MERGE_FROM_STREAM: {
+          com.google.protobuf.CodedInputStream input =
+              (com.google.protobuf.CodedInputStream) arg0;
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry =
+              (com.google.protobuf.ExtensionRegistryLite) arg1;
+          try {
+            boolean done = false;
+            while (!done) {
+              int tag = input.readTag();
+              switch (tag) {
+                case 0:
+                  done = true;
+                  break;
+                default: {
+                  if (!parseUnknownField(tag, input)) {
+                    done = true;
+                  }
+                  break;
+                }
+                case 10: {
+                  se.locutus.sea_chauffeur.Messages.Location.Builder subBuilder = null;
+                  if (((bitField0_ & 0x00000001) == 0x00000001)) {
+                    subBuilder = location_.toBuilder();
+                  }
+                  location_ = input.readMessage(se.locutus.sea_chauffeur.Messages.Location.parser(), extensionRegistry);
+                  if (subBuilder != null) {
+                    subBuilder.mergeFrom(location_);
+                    location_ = subBuilder.buildPartial();
+                  }
+                  bitField0_ |= 0x00000001;
+                  break;
+                }
+              }
+            }
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            throw new RuntimeException(e.setUnfinishedMessage(this));
+          } catch (java.io.IOException e) {
+            throw new RuntimeException(
+                new com.google.protobuf.InvalidProtocolBufferException(
+                    e.getMessage()).setUnfinishedMessage(this));
+          } finally {
+          }
+        }
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          if (PARSER == null) {    synchronized (se.locutus.sea_chauffeur.Messages.NavRequest.class) {
+              if (PARSER == null) {
+                PARSER = new DefaultInstanceBasedParser(DEFAULT_INSTANCE);
+              }
+            }
+          }
+          return PARSER;
+        }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:NavRequest)
+    private static final se.locutus.sea_chauffeur.Messages.NavRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new NavRequest();
+      DEFAULT_INSTANCE.makeImmutable();
+    }
+
+    public static se.locutus.sea_chauffeur.Messages.NavRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<NavRequest> PARSER;
+
+    public static com.google.protobuf.Parser<NavRequest> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface LocationOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Location)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>required float lat = 1;</code>
+     */
+    boolean hasLat();
+    /**
+     * <code>required float lat = 1;</code>
+     */
+    float getLat();
+
+    /**
+     * <code>required float lng = 2;</code>
+     */
+    boolean hasLng();
+    /**
+     * <code>required float lng = 2;</code>
+     */
+    float getLng();
+  }
+  /**
+   * Protobuf type {@code Location}
+   */
+  public  static final class Location extends
+      com.google.protobuf.GeneratedMessageLite<
+          Location, Location.Builder> implements
+      // @@protoc_insertion_point(message_implements:Location)
+      LocationOrBuilder {
+    private Location() {
+    }
+    private int bitField0_;
+    public static final int LAT_FIELD_NUMBER = 1;
+    private float lat_;
+    /**
+     * <code>required float lat = 1;</code>
+     */
+    public boolean hasLat() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required float lat = 1;</code>
+     */
+    public float getLat() {
+      return lat_;
+    }
+    /**
+     * <code>required float lat = 1;</code>
+     */
+    private void setLat(float value) {
+      bitField0_ |= 0x00000001;
+      lat_ = value;
+    }
+    /**
+     * <code>required float lat = 1;</code>
+     */
+    private void clearLat() {
+      bitField0_ = (bitField0_ & ~0x00000001);
+      lat_ = 0F;
+    }
+
+    public static final int LNG_FIELD_NUMBER = 2;
+    private float lng_;
+    /**
+     * <code>required float lng = 2;</code>
+     */
+    public boolean hasLng() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required float lng = 2;</code>
+     */
+    public float getLng() {
+      return lng_;
+    }
+    /**
+     * <code>required float lng = 2;</code>
+     */
+    private void setLng(float value) {
+      bitField0_ |= 0x00000002;
+      lng_ = value;
+    }
+    /**
+     * <code>required float lng = 2;</code>
+     */
+    private void clearLng() {
+      bitField0_ = (bitField0_ & ~0x00000002);
+      lng_ = 0F;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeFloat(1, lat_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeFloat(2, lng_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(1, lat_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(2, lng_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    public static se.locutus.sea_chauffeur.Messages.Location parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static se.locutus.sea_chauffeur.Messages.Location parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static se.locutus.sea_chauffeur.Messages.Location parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static se.locutus.sea_chauffeur.Messages.Location parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static se.locutus.sea_chauffeur.Messages.Location parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static se.locutus.sea_chauffeur.Messages.Location parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static se.locutus.sea_chauffeur.Messages.Location parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+    public static se.locutus.sea_chauffeur.Messages.Location parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static se.locutus.sea_chauffeur.Messages.Location parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static se.locutus.sea_chauffeur.Messages.Location parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(se.locutus.sea_chauffeur.Messages.Location prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+
+    /**
+     * Protobuf type {@code Location}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          se.locutus.sea_chauffeur.Messages.Location, Builder> implements
+        // @@protoc_insertion_point(builder_implements:Location)
+        se.locutus.sea_chauffeur.Messages.LocationOrBuilder {
+      // Construct using se.locutus.sea_chauffeur.Messages.Location.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>required float lat = 1;</code>
+       */
+      public boolean hasLat() {
+        return instance.hasLat();
+      }
+      /**
+       * <code>required float lat = 1;</code>
+       */
+      public float getLat() {
+        return instance.getLat();
+      }
+      /**
+       * <code>required float lat = 1;</code>
+       */
+      public Builder setLat(float value) {
+        copyOnWrite();
+        instance.setLat(value);
+        return this;
+      }
+      /**
+       * <code>required float lat = 1;</code>
+       */
+      public Builder clearLat() {
+        copyOnWrite();
+        instance.clearLat();
+        return this;
+      }
+
+      /**
+       * <code>required float lng = 2;</code>
+       */
+      public boolean hasLng() {
+        return instance.hasLng();
+      }
+      /**
+       * <code>required float lng = 2;</code>
+       */
+      public float getLng() {
+        return instance.getLng();
+      }
+      /**
+       * <code>required float lng = 2;</code>
+       */
+      public Builder setLng(float value) {
+        copyOnWrite();
+        instance.setLng(value);
+        return this;
+      }
+      /**
+       * <code>required float lng = 2;</code>
+       */
+      public Builder clearLng() {
+        copyOnWrite();
+        instance.clearLng();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:Location)
+    }
+    private byte memoizedIsInitialized = -1;
+    protected final Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        Object arg0, Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new se.locutus.sea_chauffeur.Messages.Location();
+        }
+        case IS_INITIALIZED: {
+          byte isInitialized = memoizedIsInitialized;
+          if (isInitialized == 1) return DEFAULT_INSTANCE;
+          if (isInitialized == 0) return null;
+
+          boolean shouldMemoize = ((Boolean) arg0).booleanValue();
+          if (!hasLat()) {
+            if (shouldMemoize) {
+              memoizedIsInitialized = 0;
+            }
+            return null;
+          }
+          if (!hasLng()) {
+            if (shouldMemoize) {
+              memoizedIsInitialized = 0;
+            }
+            return null;
+          }
+          if (shouldMemoize) memoizedIsInitialized = 1;
+          return DEFAULT_INSTANCE;
+
+        }
+        case MAKE_IMMUTABLE: {
+          return null;
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case VISIT: {
+          Visitor visitor = (Visitor) arg0;
+          se.locutus.sea_chauffeur.Messages.Location other = (se.locutus.sea_chauffeur.Messages.Location) arg1;
           lat_ = visitor.visitFloat(
               hasLat(), lat_,
               other.hasLat(), other.lat_);
@@ -1037,7 +1704,7 @@ public final class Messages {
           return DEFAULT_INSTANCE;
         }
         case GET_PARSER: {
-          if (PARSER == null) {    synchronized (se.locutus.sea_chauffeur.Messages.NavRequest.class) {
+          if (PARSER == null) {    synchronized (se.locutus.sea_chauffeur.Messages.Location.class) {
               if (PARSER == null) {
                 PARSER = new DefaultInstanceBasedParser(DEFAULT_INSTANCE);
               }
@@ -1050,20 +1717,20 @@ public final class Messages {
     }
 
 
-    // @@protoc_insertion_point(class_scope:NavRequest)
-    private static final se.locutus.sea_chauffeur.Messages.NavRequest DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:Location)
+    private static final se.locutus.sea_chauffeur.Messages.Location DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new NavRequest();
+      DEFAULT_INSTANCE = new Location();
       DEFAULT_INSTANCE.makeImmutable();
     }
 
-    public static se.locutus.sea_chauffeur.Messages.NavRequest getDefaultInstance() {
+    public static se.locutus.sea_chauffeur.Messages.Location getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static volatile com.google.protobuf.Parser<NavRequest> PARSER;
+    private static volatile com.google.protobuf.Parser<Location> PARSER;
 
-    public static com.google.protobuf.Parser<NavRequest> parser() {
+    public static com.google.protobuf.Parser<Location> parser() {
       return DEFAULT_INSTANCE.getParserForType();
     }
   }
