@@ -444,11 +444,11 @@ public final class Messages {
     se.locutus.sea_chauffeur.Messages.Location getCurrentLocation();
 
     /**
-     * <code>optional .Location current_destination = 3;</code>
+     * <code>required .Location current_destination = 3;</code>
      */
     boolean hasCurrentDestination();
     /**
-     * <code>optional .Location current_destination = 3;</code>
+     * <code>required .Location current_destination = 3;</code>
      */
     se.locutus.sea_chauffeur.Messages.Location getCurrentDestination();
   }
@@ -551,19 +551,19 @@ public final class Messages {
     public static final int CURRENT_DESTINATION_FIELD_NUMBER = 3;
     private se.locutus.sea_chauffeur.Messages.Location currentDestination_;
     /**
-     * <code>optional .Location current_destination = 3;</code>
+     * <code>required .Location current_destination = 3;</code>
      */
     public boolean hasCurrentDestination() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional .Location current_destination = 3;</code>
+     * <code>required .Location current_destination = 3;</code>
      */
     public se.locutus.sea_chauffeur.Messages.Location getCurrentDestination() {
       return currentDestination_ == null ? se.locutus.sea_chauffeur.Messages.Location.getDefaultInstance() : currentDestination_;
     }
     /**
-     * <code>optional .Location current_destination = 3;</code>
+     * <code>required .Location current_destination = 3;</code>
      */
     private void setCurrentDestination(se.locutus.sea_chauffeur.Messages.Location value) {
       if (value == null) {
@@ -573,7 +573,7 @@ public final class Messages {
       bitField0_ |= 0x00000004;
       }
     /**
-     * <code>optional .Location current_destination = 3;</code>
+     * <code>required .Location current_destination = 3;</code>
      */
     private void setCurrentDestination(
         se.locutus.sea_chauffeur.Messages.Location.Builder builderForValue) {
@@ -581,7 +581,7 @@ public final class Messages {
       bitField0_ |= 0x00000004;
     }
     /**
-     * <code>optional .Location current_destination = 3;</code>
+     * <code>required .Location current_destination = 3;</code>
      */
     private void mergeCurrentDestination(se.locutus.sea_chauffeur.Messages.Location value) {
       if (currentDestination_ != null &&
@@ -594,7 +594,7 @@ public final class Messages {
       bitField0_ |= 0x00000004;
     }
     /**
-     * <code>optional .Location current_destination = 3;</code>
+     * <code>required .Location current_destination = 3;</code>
      */
     private void clearCurrentDestination() {  currentDestination_ = null;
       bitField0_ = (bitField0_ & ~0x00000004);
@@ -793,19 +793,19 @@ public final class Messages {
       }
 
       /**
-       * <code>optional .Location current_destination = 3;</code>
+       * <code>required .Location current_destination = 3;</code>
        */
       public boolean hasCurrentDestination() {
         return instance.hasCurrentDestination();
       }
       /**
-       * <code>optional .Location current_destination = 3;</code>
+       * <code>required .Location current_destination = 3;</code>
        */
       public se.locutus.sea_chauffeur.Messages.Location getCurrentDestination() {
         return instance.getCurrentDestination();
       }
       /**
-       * <code>optional .Location current_destination = 3;</code>
+       * <code>required .Location current_destination = 3;</code>
        */
       public Builder setCurrentDestination(se.locutus.sea_chauffeur.Messages.Location value) {
         copyOnWrite();
@@ -813,7 +813,7 @@ public final class Messages {
         return this;
         }
       /**
-       * <code>optional .Location current_destination = 3;</code>
+       * <code>required .Location current_destination = 3;</code>
        */
       public Builder setCurrentDestination(
           se.locutus.sea_chauffeur.Messages.Location.Builder builderForValue) {
@@ -822,7 +822,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>optional .Location current_destination = 3;</code>
+       * <code>required .Location current_destination = 3;</code>
        */
       public Builder mergeCurrentDestination(se.locutus.sea_chauffeur.Messages.Location value) {
         copyOnWrite();
@@ -830,7 +830,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>optional .Location current_destination = 3;</code>
+       * <code>required .Location current_destination = 3;</code>
        */
       public Builder clearCurrentDestination() {  copyOnWrite();
         instance.clearCurrentDestination();
@@ -859,6 +859,12 @@ public final class Messages {
             }
             return null;
           }
+          if (!hasCurrentDestination()) {
+            if (shouldMemoize) {
+              memoizedIsInitialized = 0;
+            }
+            return null;
+          }
           if (hasCurrentLocation()) {
             if (!getCurrentLocation().isInitialized()) {
               if (shouldMemoize) {
@@ -867,13 +873,11 @@ public final class Messages {
               return null;
             }
           }
-          if (hasCurrentDestination()) {
-            if (!getCurrentDestination().isInitialized()) {
-              if (shouldMemoize) {
-                memoizedIsInitialized = 0;
-              }
-              return null;
+          if (!getCurrentDestination().isInitialized()) {
+            if (shouldMemoize) {
+              memoizedIsInitialized = 0;
             }
+            return null;
           }
           if (shouldMemoize) memoizedIsInitialized = 1;
           return DEFAULT_INSTANCE;

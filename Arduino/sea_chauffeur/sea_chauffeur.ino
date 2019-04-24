@@ -3,6 +3,7 @@
 #include "pb_common.h"
 #include "pb.h"
 #include "pb_encode.h"
+#include "nav_lib.h"
 #include "pb_decode.h"
 #include "messages.pb.h"
 
@@ -63,7 +64,7 @@ void loop () {
      response.current_destination.lat = 123.0f;
      response.current_destination.lng = 321.0f;
      pb_ostream_t ostream = pb_ostream_from_buffer(response_buffer, sizeof(response_buffer));
-     // Can't encode optional fields here...
+     // Can't encode optional fields here... see https://github.com/nanopb/nanopb/issues/198
      bool status = pb_encode_delimited(&ostream, SeaResponse_fields, &response);
      if (!status) {
        Serial.println("Failed to encode proto response message! Error is: ");

@@ -14,7 +14,7 @@ enum ResponseCode {
 message SeaResponse {
   required ResponseCode response_code = 1;
   optional Location current_location = 2;
-  optional Location current_destination = 3;
+  required Location current_destination = 3;
 }
 
 message NavRequest {
