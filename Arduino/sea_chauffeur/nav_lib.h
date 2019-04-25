@@ -5,20 +5,27 @@
 #define _NAV_LIB_H
 
 #define GPS_DATA_CACHE 20
+#define COURSE_CORRECTION_MILLIS 5000
+#define COURSE_DEVIATION_THRESHOLD 1.0f
+#define COURSE_DEVIATION_POWER_MULTIPLIER 0.8f
+#define COURSE_DEVIATION_TIME_MULTIPLIER 100
 
 struct _GpsData {
 	float lat;
 	float lng;
-	float heading;
-	float knots;
+	float course;
+	// Meters per second because SI :D
+	float meters_per_second;
 	// Time since startup the data was accquired.
 	unsigned long time;
 };
 
 
 struct _NavState {
-  // Keep up to 20 seconds of historical data.
+  // Keep up to GPS_DATA_CACHE seconds of historical data.
   struct _GpsData gps_data[GPS_DATA_CACHE];
+  // The point in time which new commands can be issued. 
+  unsigned long next_command_possible;
 };
 
 
@@ -31,18 +38,19 @@ enum SteerDirection {
 struct _SteerCommand {
 	// Motor steering direction.
 	enum SteerDirection direction;
-	// How long the steer should be active. 
-	// -1 means its a one time adjustment.
+	// How long the steer motor should engage. 
 	int millis_duration;
-	// 0.1 to 1.0.
-	float power;
+	// 0 to 255
+	int power;
+	// Reverse the steer after the millis. -1 means the steer should not be reversed.	
+	int reverse_duration;
 };
 
 typedef struct _NavState NavState;
 typedef struct _SteerCommand SteerCommand;
 typedef struct _GpsData GpsData;
 
-// Should run at most once a second.
+// Should run at most once a second. We assume location data is uniformly distributed.
 SteerCommand newLocationData(NavState* navState, GpsData* GpsData);
 SteerCommand newDestinationData(NavState* navState);
 NavState initNavState();
