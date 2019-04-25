@@ -1,14 +1,17 @@
 #include <stdbool.h>
-//  #include "bl.h"
 
 #ifndef _NAV_LIB_H
 #define _NAV_LIB_H
 
-#define GPS_DATA_CACHE 20
+#define GPS_DATA_CACHE 10
 #define COURSE_CORRECTION_MILLIS 5000
 #define COURSE_DEVIATION_THRESHOLD 1.0f
-#define COURSE_DEVIATION_POWER_MULTIPLIER 0.8f
-#define COURSE_DEVIATION_TIME_MULTIPLIER 100
+#define COURSE_DEVIATION_POWER_MULTIPLIER 100
+#define COURSE_DEVIATION_TIME_MULTIPLIER 30
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 struct _GpsData {
 	float lat;
@@ -41,7 +44,7 @@ struct _SteerCommand {
 	// How long the steer motor should engage. 
 	int millis_duration;
 	// 0 to 255
-	int power;
+	unsigned char power;
 	// Reverse the steer after the millis. -1 means the steer should not be reversed.	
 	int reverse_duration;
 };
@@ -54,4 +57,9 @@ typedef struct _GpsData GpsData;
 SteerCommand newLocationData(NavState* navState, GpsData* GpsData);
 SteerCommand newDestinationData(NavState* navState);
 NavState initNavState();
+
+#ifdef __cplusplus
+}
+#endif
+
 #endif

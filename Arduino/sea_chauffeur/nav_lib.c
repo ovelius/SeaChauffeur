@@ -1,9 +1,12 @@
 #include <stdbool.h>
+#include <stdio.h>
 #include <math.h>
+#include <assert.h> 
 #include "nav_lib.h"
 
 float calculateCourseDeviation(NavState* navState, int time_period_millis) {
 	unsigned long time_reference = navState->gps_data[0].time;
+	unsigned long oldest = time_reference;
 	float course_reference = navState->gps_data[0].course;
 	float course_deviation = 0.0f;
 	int samples = 0;
@@ -15,6 +18,7 @@ float calculateCourseDeviation(NavState* navState, int time_period_millis) {
 			break;
 		}
 		course_deviation -= (item.course - course_reference);
+		oldest = item.time;
 		samples++;
 	}
 	
@@ -22,9 +26,9 @@ float calculateCourseDeviation(NavState* navState, int time_period_millis) {
 	if (samples <= 2) {
 		return 0.0f;
 	}
-	
-	// TODO: Should we returnt this as degrees per second?
-	return course_deviation;
+	float timeDiff = (time_reference - oldest) / 1000.0f;
+	// This should be in degrees per second.
+	return course_deviation / timeDiff;
 }
 
 void pushLocationData(NavState* navState, GpsData gpsData, int index) {
@@ -33,6 +37,8 @@ void pushLocationData(NavState* navState, GpsData gpsData, int index) {
 		return;
 	}
 	GpsData t = navState->gps_data[index];
+	// Data we are trying to insert must have a newer timestamp than existing data.
+	assert(gpsData.time >= t.time);
 	navState->gps_data[index] = gpsData;
 	// Continue pushing downwards.
 	pushLocationData(navState, t, index + 1);
@@ -51,10 +57,10 @@ SteerCommand newLocationData(NavState* navState, GpsData* gpsData) {
 	if (fabs(course_deviation) > COURSE_DEVIATION_THRESHOLD && current_time > navState->next_command_possible) {
 		command.direction = course_deviation > 0 ? Left : Right;
 		command.reverse_duration = -1;
-		command.power = COURSE_DEVIATION_POWER_MULTIPLIER * course_deviation;
-		command.millis_duration = COURSE_DEVIATION_TIME_MULTIPLIER * course_deviation;
+		command.power = fabs(fmin(COURSE_DEVIATION_POWER_MULTIPLIER * course_deviation, 255));
+		command.millis_duration = fabs(COURSE_DEVIATION_TIME_MULTIPLIER * course_deviation);
 		
-		navState->next_command_possible = current_time + command.millis_duration;
+		navState->next_command_possible = current_time + command.millis_duration + COURSE_CORRECTION_MILLIS/2;
 	}
 	return command;
 }

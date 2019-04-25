@@ -1,5 +1,8 @@
+#if defined _WIN32
+
 #include <check.h>
 #include <stdio.h>
+#include <math.h>
 #include "nav_lib.h"
 
 START_TEST (base_feed_location)
@@ -41,7 +44,7 @@ START_TEST (base_course_correction)
 	ck_assert(calculateCourseDeviation(&state, COURSE_CORRECTION_MILLIS) == 0.0f);
 	
     GpsData gpsData;
-	gpsData.time = 3;
+	gpsData.time = 3000;
 	gpsData.course = 10.f;
 	
 	// Feed location data.
@@ -49,20 +52,20 @@ START_TEST (base_course_correction)
 	 
 	ck_assert(calculateCourseDeviation(&state, COURSE_CORRECTION_MILLIS) == 0.0f);
 
-    gpsData.time = 2;
+    gpsData.time = 2000;
 	gpsData.course = 9.f;	
 	state.gps_data[1] = gpsData;
 	
 	ck_assert(calculateCourseDeviation(&state, COURSE_CORRECTION_MILLIS) == 0.0f);
 	
-	gpsData.time = 1;
+	gpsData.time = 1000;
 	gpsData.course = 8.f;	
 	state.gps_data[2] = gpsData;
 	
 	fprintf(stderr, "Test course data correction is %f\n", 
 		calculateCourseDeviation(&state, COURSE_CORRECTION_MILLIS));
-	// Over the last COURSE_CORRECTION_MILLIS we've slipped about 3.0f in course.
-	ck_assert((calculateCourseDeviation(&state, COURSE_CORRECTION_MILLIS) - 3.0f) < 0.01f);
+	// Over the last 2 seconds we've slipped about 3.0f off course.
+	ck_assert(fabs((calculateCourseDeviation(&state, COURSE_CORRECTION_MILLIS) - 1.5f)) < 0.01f);
 
     // Insert super old record, not counted.	
 	state.gps_data[3].time = gpsData.time - COURSE_CORRECTION_MILLIS - 1;
@@ -70,12 +73,12 @@ START_TEST (base_course_correction)
 	
 	fprintf(stderr, "Test course data correction with too old item is %f\n",
 		calculateCourseDeviation(&state, COURSE_CORRECTION_MILLIS));
-	ck_assert((calculateCourseDeviation(&state, COURSE_CORRECTION_MILLIS) - 3.0f) < 0.01f);
+	ck_assert(fabs((calculateCourseDeviation(&state, COURSE_CORRECTION_MILLIS) - 1.5f)) < 0.01f);
 	
     state.gps_data[3].time = gpsData.time + 1;
 	fprintf(stderr, "Test course data is %f\n",
 		calculateCourseDeviation(&state, COURSE_CORRECTION_MILLIS));
-	ck_assert((calculateCourseDeviation(&state, COURSE_CORRECTION_MILLIS) - 6.0f) < 0.01f);
+	ck_assert(fabs((calculateCourseDeviation(&state, COURSE_CORRECTION_MILLIS) - 3.0f)) < 0.01f);
 	
 	gpsData.time = 2;
 	// Item 1 in the array now goes the other way - reducing our course issue slightly.
@@ -84,7 +87,7 @@ START_TEST (base_course_correction)
 	
 	fprintf(stderr, "Test course data is %f\n", 
 		calculateCourseDeviation(&state, COURSE_CORRECTION_MILLIS));
-	ck_assert((calculateCourseDeviation(&state, COURSE_CORRECTION_MILLIS) - 4.5f) < 0.01f);
+	ck_assert(fabs((calculateCourseDeviation(&state, COURSE_CORRECTION_MILLIS) - 2.25f)) < 0.01f);
 }
 END_TEST
 
@@ -104,3 +107,5 @@ int main(void) {
 
     return nf == 0 ? 0 : 1;
 }
+
+#endif
