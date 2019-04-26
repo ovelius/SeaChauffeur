@@ -1,4 +1,4 @@
-#if defined _WIN32
+#if defined _UNIT_TEST
 
 #include <check.h>
 #include <stdio.h>

@@ -1,6 +1,6 @@
 HEADERS = nav_lib.h bl.h
 OBJECTS = nav_lib.o nav_lib_test.o
-CFLAGS="-D _WIN32"
+CFLAGS="-D _UNIT_TEST"
 
 default: program
 
