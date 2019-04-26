@@ -4,6 +4,8 @@
 #include <assert.h> 
 #include "nav_lib.h"
 
+struct NavLibConfiguration nav_lib_configuration;
+
 float calculateCourseDeviation(NavState* navState, int time_period_millis) {
 	unsigned long time_reference = navState->gps_data[0].time;
 	unsigned long oldest = time_reference;
@@ -74,5 +76,6 @@ NavState initNavState() {
 		s.gps_data[i].time = 0;
 	}
 	s.next_command_possible = 0;
+	s.current_destination.course = -1;
 	return s;
 }
