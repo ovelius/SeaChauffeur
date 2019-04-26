@@ -86,6 +86,15 @@ public final class Messages {
      * <code>optional .NavRequest nav_request = 1;</code>
      */
     se.locutus.sea_chauffeur.Messages.NavRequest getNavRequest();
+
+    /**
+     * <code>optional .Configuration update_configuration = 2;</code>
+     */
+    boolean hasUpdateConfiguration();
+    /**
+     * <code>optional .Configuration update_configuration = 2;</code>
+     */
+    se.locutus.sea_chauffeur.Messages.Configuration getUpdateConfiguration();
   }
   /**
    * Protobuf type {@code SeaRequest}
@@ -150,10 +159,65 @@ public final class Messages {
       bitField0_ = (bitField0_ & ~0x00000001);
     }
 
+    public static final int UPDATE_CONFIGURATION_FIELD_NUMBER = 2;
+    private se.locutus.sea_chauffeur.Messages.Configuration updateConfiguration_;
+    /**
+     * <code>optional .Configuration update_configuration = 2;</code>
+     */
+    public boolean hasUpdateConfiguration() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional .Configuration update_configuration = 2;</code>
+     */
+    public se.locutus.sea_chauffeur.Messages.Configuration getUpdateConfiguration() {
+      return updateConfiguration_ == null ? se.locutus.sea_chauffeur.Messages.Configuration.getDefaultInstance() : updateConfiguration_;
+    }
+    /**
+     * <code>optional .Configuration update_configuration = 2;</code>
+     */
+    private void setUpdateConfiguration(se.locutus.sea_chauffeur.Messages.Configuration value) {
+      if (value == null) {
+        throw new NullPointerException();
+      }
+      updateConfiguration_ = value;
+      bitField0_ |= 0x00000002;
+      }
+    /**
+     * <code>optional .Configuration update_configuration = 2;</code>
+     */
+    private void setUpdateConfiguration(
+        se.locutus.sea_chauffeur.Messages.Configuration.Builder builderForValue) {
+      updateConfiguration_ = builderForValue.build();
+      bitField0_ |= 0x00000002;
+    }
+    /**
+     * <code>optional .Configuration update_configuration = 2;</code>
+     */
+    private void mergeUpdateConfiguration(se.locutus.sea_chauffeur.Messages.Configuration value) {
+      if (updateConfiguration_ != null &&
+          updateConfiguration_ != se.locutus.sea_chauffeur.Messages.Configuration.getDefaultInstance()) {
+        updateConfiguration_ =
+          se.locutus.sea_chauffeur.Messages.Configuration.newBuilder(updateConfiguration_).mergeFrom(value).buildPartial();
+      } else {
+        updateConfiguration_ = value;
+      }
+      bitField0_ |= 0x00000002;
+    }
+    /**
+     * <code>optional .Configuration update_configuration = 2;</code>
+     */
+    private void clearUpdateConfiguration() {  updateConfiguration_ = null;
+      bitField0_ = (bitField0_ & ~0x00000002);
+    }
+
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeMessage(1, getNavRequest());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeMessage(2, getUpdateConfiguration());
       }
       unknownFields.writeTo(output);
     }
@@ -166,6 +230,10 @@ public final class Messages {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(1, getNavRequest());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, getUpdateConfiguration());
       }
       size += unknownFields.getSerializedSize();
       memoizedSerializedSize = size;
@@ -299,6 +367,51 @@ public final class Messages {
         return this;
       }
 
+      /**
+       * <code>optional .Configuration update_configuration = 2;</code>
+       */
+      public boolean hasUpdateConfiguration() {
+        return instance.hasUpdateConfiguration();
+      }
+      /**
+       * <code>optional .Configuration update_configuration = 2;</code>
+       */
+      public se.locutus.sea_chauffeur.Messages.Configuration getUpdateConfiguration() {
+        return instance.getUpdateConfiguration();
+      }
+      /**
+       * <code>optional .Configuration update_configuration = 2;</code>
+       */
+      public Builder setUpdateConfiguration(se.locutus.sea_chauffeur.Messages.Configuration value) {
+        copyOnWrite();
+        instance.setUpdateConfiguration(value);
+        return this;
+        }
+      /**
+       * <code>optional .Configuration update_configuration = 2;</code>
+       */
+      public Builder setUpdateConfiguration(
+          se.locutus.sea_chauffeur.Messages.Configuration.Builder builderForValue) {
+        copyOnWrite();
+        instance.setUpdateConfiguration(builderForValue);
+        return this;
+      }
+      /**
+       * <code>optional .Configuration update_configuration = 2;</code>
+       */
+      public Builder mergeUpdateConfiguration(se.locutus.sea_chauffeur.Messages.Configuration value) {
+        copyOnWrite();
+        instance.mergeUpdateConfiguration(value);
+        return this;
+      }
+      /**
+       * <code>optional .Configuration update_configuration = 2;</code>
+       */
+      public Builder clearUpdateConfiguration() {  copyOnWrite();
+        instance.clearUpdateConfiguration();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:SeaRequest)
     }
     private byte memoizedIsInitialized = -1;
@@ -337,6 +450,7 @@ public final class Messages {
           Visitor visitor = (Visitor) arg0;
           se.locutus.sea_chauffeur.Messages.SeaRequest other = (se.locutus.sea_chauffeur.Messages.SeaRequest) arg1;
           navRequest_ = visitor.visitMessage(navRequest_, other.navRequest_);
+          updateConfiguration_ = visitor.visitMessage(updateConfiguration_, other.updateConfiguration_);
           if (visitor == com.google.protobuf.GeneratedMessageLite.MergeFromVisitor
               .INSTANCE) {
             bitField0_ |= other.bitField0_;
@@ -373,6 +487,19 @@ public final class Messages {
                     navRequest_ = subBuilder.buildPartial();
                   }
                   bitField0_ |= 0x00000001;
+                  break;
+                }
+                case 18: {
+                  se.locutus.sea_chauffeur.Messages.Configuration.Builder subBuilder = null;
+                  if (((bitField0_ & 0x00000002) == 0x00000002)) {
+                    subBuilder = updateConfiguration_.toBuilder();
+                  }
+                  updateConfiguration_ = input.readMessage(se.locutus.sea_chauffeur.Messages.Configuration.parser(), extensionRegistry);
+                  if (subBuilder != null) {
+                    subBuilder.mergeFrom(updateConfiguration_);
+                    updateConfiguration_ = subBuilder.buildPartial();
+                  }
+                  bitField0_ |= 0x00000002;
                   break;
                 }
               }
@@ -1735,6 +1862,622 @@ public final class Messages {
     private static volatile com.google.protobuf.Parser<Location> PARSER;
 
     public static com.google.protobuf.Parser<Location> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface ConfigurationOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Configuration)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>optional uint32 millis_duration_per_degree_second = 1 [default = 30];</code>
+     */
+    boolean hasMillisDurationPerDegreeSecond();
+    /**
+     * <code>optional uint32 millis_duration_per_degree_second = 1 [default = 30];</code>
+     */
+    int getMillisDurationPerDegreeSecond();
+
+    /**
+     * <pre>
+     * Power settings for motor in slow nudge.
+     * </pre>
+     *
+     * <code>optional uint32 power_low_mode = 2 [default = 100];</code>
+     */
+    boolean hasPowerLowMode();
+    /**
+     * <pre>
+     * Power settings for motor in slow nudge.
+     * </pre>
+     *
+     * <code>optional uint32 power_low_mode = 2 [default = 100];</code>
+     */
+    int getPowerLowMode();
+
+    /**
+     * <pre>
+     * Power settings for motor in medium nudge.
+     * </pre>
+     *
+     * <code>optional uint32 power_medium_mode = 3 [default = 200];</code>
+     */
+    boolean hasPowerMediumMode();
+    /**
+     * <pre>
+     * Power settings for motor in medium nudge.
+     * </pre>
+     *
+     * <code>optional uint32 power_medium_mode = 3 [default = 200];</code>
+     */
+    int getPowerMediumMode();
+
+    /**
+     * <code>optional float knots_to_lock_course = 4 [default = 1];</code>
+     */
+    boolean hasKnotsToLockCourse();
+    /**
+     * <code>optional float knots_to_lock_course = 4 [default = 1];</code>
+     */
+    float getKnotsToLockCourse();
+  }
+  /**
+   * Protobuf type {@code Configuration}
+   */
+  public  static final class Configuration extends
+      com.google.protobuf.GeneratedMessageLite<
+          Configuration, Configuration.Builder> implements
+      // @@protoc_insertion_point(message_implements:Configuration)
+      ConfigurationOrBuilder {
+    private Configuration() {
+      millisDurationPerDegreeSecond_ = 30;
+      powerLowMode_ = 100;
+      powerMediumMode_ = 200;
+      knotsToLockCourse_ = 1F;
+    }
+    private int bitField0_;
+    public static final int MILLIS_DURATION_PER_DEGREE_SECOND_FIELD_NUMBER = 1;
+    private int millisDurationPerDegreeSecond_;
+    /**
+     * <code>optional uint32 millis_duration_per_degree_second = 1 [default = 30];</code>
+     */
+    public boolean hasMillisDurationPerDegreeSecond() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional uint32 millis_duration_per_degree_second = 1 [default = 30];</code>
+     */
+    public int getMillisDurationPerDegreeSecond() {
+      return millisDurationPerDegreeSecond_;
+    }
+    /**
+     * <code>optional uint32 millis_duration_per_degree_second = 1 [default = 30];</code>
+     */
+    private void setMillisDurationPerDegreeSecond(int value) {
+      bitField0_ |= 0x00000001;
+      millisDurationPerDegreeSecond_ = value;
+    }
+    /**
+     * <code>optional uint32 millis_duration_per_degree_second = 1 [default = 30];</code>
+     */
+    private void clearMillisDurationPerDegreeSecond() {
+      bitField0_ = (bitField0_ & ~0x00000001);
+      millisDurationPerDegreeSecond_ = 30;
+    }
+
+    public static final int POWER_LOW_MODE_FIELD_NUMBER = 2;
+    private int powerLowMode_;
+    /**
+     * <pre>
+     * Power settings for motor in slow nudge.
+     * </pre>
+     *
+     * <code>optional uint32 power_low_mode = 2 [default = 100];</code>
+     */
+    public boolean hasPowerLowMode() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <pre>
+     * Power settings for motor in slow nudge.
+     * </pre>
+     *
+     * <code>optional uint32 power_low_mode = 2 [default = 100];</code>
+     */
+    public int getPowerLowMode() {
+      return powerLowMode_;
+    }
+    /**
+     * <pre>
+     * Power settings for motor in slow nudge.
+     * </pre>
+     *
+     * <code>optional uint32 power_low_mode = 2 [default = 100];</code>
+     */
+    private void setPowerLowMode(int value) {
+      bitField0_ |= 0x00000002;
+      powerLowMode_ = value;
+    }
+    /**
+     * <pre>
+     * Power settings for motor in slow nudge.
+     * </pre>
+     *
+     * <code>optional uint32 power_low_mode = 2 [default = 100];</code>
+     */
+    private void clearPowerLowMode() {
+      bitField0_ = (bitField0_ & ~0x00000002);
+      powerLowMode_ = 100;
+    }
+
+    public static final int POWER_MEDIUM_MODE_FIELD_NUMBER = 3;
+    private int powerMediumMode_;
+    /**
+     * <pre>
+     * Power settings for motor in medium nudge.
+     * </pre>
+     *
+     * <code>optional uint32 power_medium_mode = 3 [default = 200];</code>
+     */
+    public boolean hasPowerMediumMode() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <pre>
+     * Power settings for motor in medium nudge.
+     * </pre>
+     *
+     * <code>optional uint32 power_medium_mode = 3 [default = 200];</code>
+     */
+    public int getPowerMediumMode() {
+      return powerMediumMode_;
+    }
+    /**
+     * <pre>
+     * Power settings for motor in medium nudge.
+     * </pre>
+     *
+     * <code>optional uint32 power_medium_mode = 3 [default = 200];</code>
+     */
+    private void setPowerMediumMode(int value) {
+      bitField0_ |= 0x00000004;
+      powerMediumMode_ = value;
+    }
+    /**
+     * <pre>
+     * Power settings for motor in medium nudge.
+     * </pre>
+     *
+     * <code>optional uint32 power_medium_mode = 3 [default = 200];</code>
+     */
+    private void clearPowerMediumMode() {
+      bitField0_ = (bitField0_ & ~0x00000004);
+      powerMediumMode_ = 200;
+    }
+
+    public static final int KNOTS_TO_LOCK_COURSE_FIELD_NUMBER = 4;
+    private float knotsToLockCourse_;
+    /**
+     * <code>optional float knots_to_lock_course = 4 [default = 1];</code>
+     */
+    public boolean hasKnotsToLockCourse() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional float knots_to_lock_course = 4 [default = 1];</code>
+     */
+    public float getKnotsToLockCourse() {
+      return knotsToLockCourse_;
+    }
+    /**
+     * <code>optional float knots_to_lock_course = 4 [default = 1];</code>
+     */
+    private void setKnotsToLockCourse(float value) {
+      bitField0_ |= 0x00000008;
+      knotsToLockCourse_ = value;
+    }
+    /**
+     * <code>optional float knots_to_lock_course = 4 [default = 1];</code>
+     */
+    private void clearKnotsToLockCourse() {
+      bitField0_ = (bitField0_ & ~0x00000008);
+      knotsToLockCourse_ = 1F;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeUInt32(1, millisDurationPerDegreeSecond_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeUInt32(2, powerLowMode_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeUInt32(3, powerMediumMode_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeFloat(4, knotsToLockCourse_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(1, millisDurationPerDegreeSecond_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(2, powerLowMode_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(3, powerMediumMode_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(4, knotsToLockCourse_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    public static se.locutus.sea_chauffeur.Messages.Configuration parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static se.locutus.sea_chauffeur.Messages.Configuration parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static se.locutus.sea_chauffeur.Messages.Configuration parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static se.locutus.sea_chauffeur.Messages.Configuration parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static se.locutus.sea_chauffeur.Messages.Configuration parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static se.locutus.sea_chauffeur.Messages.Configuration parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static se.locutus.sea_chauffeur.Messages.Configuration parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+    public static se.locutus.sea_chauffeur.Messages.Configuration parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static se.locutus.sea_chauffeur.Messages.Configuration parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static se.locutus.sea_chauffeur.Messages.Configuration parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(se.locutus.sea_chauffeur.Messages.Configuration prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+
+    /**
+     * Protobuf type {@code Configuration}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          se.locutus.sea_chauffeur.Messages.Configuration, Builder> implements
+        // @@protoc_insertion_point(builder_implements:Configuration)
+        se.locutus.sea_chauffeur.Messages.ConfigurationOrBuilder {
+      // Construct using se.locutus.sea_chauffeur.Messages.Configuration.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>optional uint32 millis_duration_per_degree_second = 1 [default = 30];</code>
+       */
+      public boolean hasMillisDurationPerDegreeSecond() {
+        return instance.hasMillisDurationPerDegreeSecond();
+      }
+      /**
+       * <code>optional uint32 millis_duration_per_degree_second = 1 [default = 30];</code>
+       */
+      public int getMillisDurationPerDegreeSecond() {
+        return instance.getMillisDurationPerDegreeSecond();
+      }
+      /**
+       * <code>optional uint32 millis_duration_per_degree_second = 1 [default = 30];</code>
+       */
+      public Builder setMillisDurationPerDegreeSecond(int value) {
+        copyOnWrite();
+        instance.setMillisDurationPerDegreeSecond(value);
+        return this;
+      }
+      /**
+       * <code>optional uint32 millis_duration_per_degree_second = 1 [default = 30];</code>
+       */
+      public Builder clearMillisDurationPerDegreeSecond() {
+        copyOnWrite();
+        instance.clearMillisDurationPerDegreeSecond();
+        return this;
+      }
+
+      /**
+       * <pre>
+       * Power settings for motor in slow nudge.
+       * </pre>
+       *
+       * <code>optional uint32 power_low_mode = 2 [default = 100];</code>
+       */
+      public boolean hasPowerLowMode() {
+        return instance.hasPowerLowMode();
+      }
+      /**
+       * <pre>
+       * Power settings for motor in slow nudge.
+       * </pre>
+       *
+       * <code>optional uint32 power_low_mode = 2 [default = 100];</code>
+       */
+      public int getPowerLowMode() {
+        return instance.getPowerLowMode();
+      }
+      /**
+       * <pre>
+       * Power settings for motor in slow nudge.
+       * </pre>
+       *
+       * <code>optional uint32 power_low_mode = 2 [default = 100];</code>
+       */
+      public Builder setPowerLowMode(int value) {
+        copyOnWrite();
+        instance.setPowerLowMode(value);
+        return this;
+      }
+      /**
+       * <pre>
+       * Power settings for motor in slow nudge.
+       * </pre>
+       *
+       * <code>optional uint32 power_low_mode = 2 [default = 100];</code>
+       */
+      public Builder clearPowerLowMode() {
+        copyOnWrite();
+        instance.clearPowerLowMode();
+        return this;
+      }
+
+      /**
+       * <pre>
+       * Power settings for motor in medium nudge.
+       * </pre>
+       *
+       * <code>optional uint32 power_medium_mode = 3 [default = 200];</code>
+       */
+      public boolean hasPowerMediumMode() {
+        return instance.hasPowerMediumMode();
+      }
+      /**
+       * <pre>
+       * Power settings for motor in medium nudge.
+       * </pre>
+       *
+       * <code>optional uint32 power_medium_mode = 3 [default = 200];</code>
+       */
+      public int getPowerMediumMode() {
+        return instance.getPowerMediumMode();
+      }
+      /**
+       * <pre>
+       * Power settings for motor in medium nudge.
+       * </pre>
+       *
+       * <code>optional uint32 power_medium_mode = 3 [default = 200];</code>
+       */
+      public Builder setPowerMediumMode(int value) {
+        copyOnWrite();
+        instance.setPowerMediumMode(value);
+        return this;
+      }
+      /**
+       * <pre>
+       * Power settings for motor in medium nudge.
+       * </pre>
+       *
+       * <code>optional uint32 power_medium_mode = 3 [default = 200];</code>
+       */
+      public Builder clearPowerMediumMode() {
+        copyOnWrite();
+        instance.clearPowerMediumMode();
+        return this;
+      }
+
+      /**
+       * <code>optional float knots_to_lock_course = 4 [default = 1];</code>
+       */
+      public boolean hasKnotsToLockCourse() {
+        return instance.hasKnotsToLockCourse();
+      }
+      /**
+       * <code>optional float knots_to_lock_course = 4 [default = 1];</code>
+       */
+      public float getKnotsToLockCourse() {
+        return instance.getKnotsToLockCourse();
+      }
+      /**
+       * <code>optional float knots_to_lock_course = 4 [default = 1];</code>
+       */
+      public Builder setKnotsToLockCourse(float value) {
+        copyOnWrite();
+        instance.setKnotsToLockCourse(value);
+        return this;
+      }
+      /**
+       * <code>optional float knots_to_lock_course = 4 [default = 1];</code>
+       */
+      public Builder clearKnotsToLockCourse() {
+        copyOnWrite();
+        instance.clearKnotsToLockCourse();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:Configuration)
+    }
+    protected final Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        Object arg0, Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new se.locutus.sea_chauffeur.Messages.Configuration();
+        }
+        case IS_INITIALIZED: {
+          return DEFAULT_INSTANCE;
+        }
+        case MAKE_IMMUTABLE: {
+          return null;
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case VISIT: {
+          Visitor visitor = (Visitor) arg0;
+          se.locutus.sea_chauffeur.Messages.Configuration other = (se.locutus.sea_chauffeur.Messages.Configuration) arg1;
+          millisDurationPerDegreeSecond_ = visitor.visitInt(
+              hasMillisDurationPerDegreeSecond(), millisDurationPerDegreeSecond_,
+              other.hasMillisDurationPerDegreeSecond(), other.millisDurationPerDegreeSecond_);
+          powerLowMode_ = visitor.visitInt(
+              hasPowerLowMode(), powerLowMode_,
+              other.hasPowerLowMode(), other.powerLowMode_);
+          powerMediumMode_ = visitor.visitInt(
+              hasPowerMediumMode(), powerMediumMode_,
+              other.hasPowerMediumMode(), other.powerMediumMode_);
+          knotsToLockCourse_ = visitor.visitFloat(
+              hasKnotsToLockCourse(), knotsToLockCourse_,
+              other.hasKnotsToLockCourse(), other.knotsToLockCourse_);
+          if (visitor == com.google.protobuf.GeneratedMessageLite.MergeFromVisitor
+              .INSTANCE) {
+            bitField0_ |= other.bitField0_;
+          }
+          return this;
+        }
+        case MERGE_FROM_STREAM: {
+          com.google.protobuf.CodedInputStream input =
+              (com.google.protobuf.CodedInputStream) arg0;
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry =
+              (com.google.protobuf.ExtensionRegistryLite) arg1;
+          try {
+            boolean done = false;
+            while (!done) {
+              int tag = input.readTag();
+              switch (tag) {
+                case 0:
+                  done = true;
+                  break;
+                default: {
+                  if (!parseUnknownField(tag, input)) {
+                    done = true;
+                  }
+                  break;
+                }
+                case 8: {
+                  bitField0_ |= 0x00000001;
+                  millisDurationPerDegreeSecond_ = input.readUInt32();
+                  break;
+                }
+                case 16: {
+                  bitField0_ |= 0x00000002;
+                  powerLowMode_ = input.readUInt32();
+                  break;
+                }
+                case 24: {
+                  bitField0_ |= 0x00000004;
+                  powerMediumMode_ = input.readUInt32();
+                  break;
+                }
+                case 37: {
+                  bitField0_ |= 0x00000008;
+                  knotsToLockCourse_ = input.readFloat();
+                  break;
+                }
+              }
+            }
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            throw new RuntimeException(e.setUnfinishedMessage(this));
+          } catch (java.io.IOException e) {
+            throw new RuntimeException(
+                new com.google.protobuf.InvalidProtocolBufferException(
+                    e.getMessage()).setUnfinishedMessage(this));
+          } finally {
+          }
+        }
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          if (PARSER == null) {    synchronized (se.locutus.sea_chauffeur.Messages.Configuration.class) {
+              if (PARSER == null) {
+                PARSER = new DefaultInstanceBasedParser(DEFAULT_INSTANCE);
+              }
+            }
+          }
+          return PARSER;
+        }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:Configuration)
+    private static final se.locutus.sea_chauffeur.Messages.Configuration DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new Configuration();
+      DEFAULT_INSTANCE.makeImmutable();
+    }
+
+    public static se.locutus.sea_chauffeur.Messages.Configuration getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<Configuration> PARSER;
+
+    public static com.google.protobuf.Parser<Configuration> parser() {
       return DEFAULT_INSTANCE.getParserForType();
     }
   }

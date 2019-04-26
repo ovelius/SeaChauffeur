@@ -4,6 +4,7 @@ option java_package = "se.locutus.sea_chauffeur";
 
 message SeaRequest {
   optional NavRequest nav_request = 1;
+  optional Configuration update_configuration = 2;
 }
 
 enum ResponseCode {
@@ -24,4 +25,13 @@ message NavRequest {
 message Location {
   required float lat = 1;
   required float lng = 2;
+}
+
+message Configuration {
+  optional uint32 millis_duration_per_degree_second = 1 [default = 30];
+  // Power settings for motor in slow nudge.
+  optional uint32 power_low_mode = 2 [default = 100];
+  // Power settings for motor in medium nudge.
+  optional uint32 power_medium_mode = 3 [default = 200];
+  optional float knots_to_lock_course = 4 [default = 1.0];
 }
