@@ -1,10 +1,12 @@
 package se.locutus.seachauffeur
 
+import android.Manifest
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
@@ -12,8 +14,11 @@ import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothAdapter
 import android.content.Intent
 import android.bluetooth.BluetoothSocket
+import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Handler
-import android.widget.Button
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
 import android.widget.Toast
 import com.google.android.gms.maps.model.Marker
 import se.locutus.sea_chauffeur.Messages
@@ -22,12 +27,13 @@ import java.io.OutputStream
 import java.io.IOException
 import java.lang.Exception
 import java.util.*
+import com.google.android.gms.maps.CameraUpdateFactory
+
+const val LOCATION_ACCESS_REQUEST_CODE = 99
 
 
 class NavigationActivity : AppCompatActivity(), OnMapReadyCallback {
-
     private lateinit var mMap: GoogleMap
-    private lateinit var mButton : Button
     private val handler = Handler()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,14 +43,8 @@ class NavigationActivity : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
-        mButton = findViewById(R.id.button_send)
 
-        mButton.setOnClickListener {
-            Toast.makeText(this, "Sending data" +
-                "", Toast.LENGTH_SHORT).show()
-            mmOutputStream!!.write("hello".toByteArray())
-        }
-
+        locationAccessCheck()
         createBtConnection()
     }
 
@@ -59,6 +59,54 @@ class NavigationActivity : AppCompatActivity(), OnMapReadyCallback {
             }
             currentDestination = mMap.addMarker(MarkerOptions().position(latLng).title("Current destination"))
             sendNewDestination(latLng)
+        }
+        centerMapOnMyLocation()
+    }
+
+    private fun locationAccessCheck() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+            != PackageManager.PERMISSION_GRANTED) {
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+                ActivityCompat.requestPermissions(this,
+                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                    LOCATION_ACCESS_REQUEST_CODE
+                )
+            } else {
+                ActivityCompat.requestPermissions(this,
+                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                    LOCATION_ACCESS_REQUEST_CODE
+                )
+            }
+        } else {
+            Toast.makeText(this, "No access to location :(", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun centerMapOnMyLocation() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+            == PackageManager.PERMISSION_GRANTED) {
+
+            val fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+            fusedLocationClient.lastLocation
+                .addOnSuccessListener { location: Location? ->
+                    if (location != null) {
+                            mMap.animateCamera(
+                                CameraUpdateFactory.newLatLngZoom(
+                                    LatLng(
+                                        location.latitude,
+                                        location.longitude
+                                    ),
+                                    14.0f
+                                )
+                            )
+                        } else {
+                            Toast.makeText(this, "No access to location :(", Toast.LENGTH_SHORT).show()
+                        }
+                }
         }
     }
 
@@ -161,11 +209,12 @@ class NavigationActivity : AppCompatActivity(), OnMapReadyCallback {
                         Toast.makeText(this, "Bluetooth data response code: ${response.responseCode} current destination ${response.currentDestination.lat} ${response.currentDestination.lng}", Toast.LENGTH_SHORT).show()
                     }
                 } catch (ex: IOException) {
-                    while (mmInputStream!!.available()> 0) {
-                        System.err.println("Buffer flush read ${mmInputStream!!.read()}")
+                    if (mmSocket!!.isConnected) {
+                        while (mmInputStream!!.available() > 0) {
+                            System.err.println("Buffer flush read ${mmInputStream!!.read()}")
+                        }
                     }
                     ex.printStackTrace()
-                   // stopWorker = true
                 }
 
             }
@@ -173,6 +222,12 @@ class NavigationActivity : AppCompatActivity(), OnMapReadyCallback {
 
         workerThread!!.start()
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        closeBT()
+    }
+
 
     @Throws(IOException::class)
     fun closeBT() {
