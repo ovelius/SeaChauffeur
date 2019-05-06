@@ -8,18 +8,34 @@ message SeaRequest {
 }
 
 enum ResponseCode {
-  UKNOWN = 0;
+  RESPONSE_CODE_UNKNOWN = 0;
   OK = 1;
 }
 
 message SeaResponse {
   required ResponseCode response_code = 1;
   optional Location current_location = 2;
-  required Location current_destination = 3;
+  optional float current_course = 3;
+  optional Location current_destination = 4;
+  optional float course_to_destination = 5;
+  
+  optional SteeringMove steering_move = 6;
 }
 
 message NavRequest {
   optional Location location = 1;
+}
+
+enum SteeringDirection {
+  STEERING_DIRECTION_UNKNOWN = 0;
+  LEFT = 1;
+  RIGHT = 2;
+}
+
+message SteeringMove {
+  required SteeringDirection direction = 1;
+  required uint32 power = 2;
+  required uint32 millis = 3;  
 }
 
 message Location {

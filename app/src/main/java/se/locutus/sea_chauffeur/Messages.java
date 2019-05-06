@@ -14,9 +14,9 @@ public final class Messages {
   public enum ResponseCode
       implements com.google.protobuf.Internal.EnumLite {
     /**
-     * <code>UKNOWN = 0;</code>
+     * <code>RESPONSE_CODE_UNKNOWN = 0;</code>
      */
-    UKNOWN(0),
+    RESPONSE_CODE_UNKNOWN(0),
     /**
      * <code>OK = 1;</code>
      */
@@ -24,9 +24,9 @@ public final class Messages {
     ;
 
     /**
-     * <code>UKNOWN = 0;</code>
+     * <code>RESPONSE_CODE_UNKNOWN = 0;</code>
      */
-    public static final int UKNOWN_VALUE = 0;
+    public static final int RESPONSE_CODE_UNKNOWN_VALUE = 0;
     /**
      * <code>OK = 1;</code>
      */
@@ -47,7 +47,7 @@ public final class Messages {
 
     public static ResponseCode forNumber(int value) {
       switch (value) {
-        case 0: return UKNOWN;
+        case 0: return RESPONSE_CODE_UNKNOWN;
         case 1: return OK;
         default: return null;
       }
@@ -72,6 +72,81 @@ public final class Messages {
     }
 
     // @@protoc_insertion_point(enum_scope:ResponseCode)
+  }
+
+  /**
+   * Protobuf enum {@code SteeringDirection}
+   */
+  public enum SteeringDirection
+      implements com.google.protobuf.Internal.EnumLite {
+    /**
+     * <code>STEERING_DIRECTION_UNKNOWN = 0;</code>
+     */
+    STEERING_DIRECTION_UNKNOWN(0),
+    /**
+     * <code>LEFT = 1;</code>
+     */
+    LEFT(1),
+    /**
+     * <code>RIGHT = 2;</code>
+     */
+    RIGHT(2),
+    ;
+
+    /**
+     * <code>STEERING_DIRECTION_UNKNOWN = 0;</code>
+     */
+    public static final int STEERING_DIRECTION_UNKNOWN_VALUE = 0;
+    /**
+     * <code>LEFT = 1;</code>
+     */
+    public static final int LEFT_VALUE = 1;
+    /**
+     * <code>RIGHT = 2;</code>
+     */
+    public static final int RIGHT_VALUE = 2;
+
+
+    public final int getNumber() {
+      return value;
+    }
+
+    /**
+     * @deprecated Use {@link #forNumber(int)} instead.
+     */
+    @java.lang.Deprecated
+    public static SteeringDirection valueOf(int value) {
+      return forNumber(value);
+    }
+
+    public static SteeringDirection forNumber(int value) {
+      switch (value) {
+        case 0: return STEERING_DIRECTION_UNKNOWN;
+        case 1: return LEFT;
+        case 2: return RIGHT;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<SteeringDirection>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static final com.google.protobuf.Internal.EnumLiteMap<
+        SteeringDirection> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<SteeringDirection>() {
+            public SteeringDirection findValueByNumber(int number) {
+              return SteeringDirection.forNumber(number);
+            }
+          };
+
+    private final int value;
+
+    private SteeringDirection(int value) {
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:SteeringDirection)
   }
 
   public interface SeaRequestOrBuilder extends
@@ -571,13 +646,40 @@ public final class Messages {
     se.locutus.sea_chauffeur.Messages.Location getCurrentLocation();
 
     /**
-     * <code>required .Location current_destination = 3;</code>
+     * <code>optional float current_course = 3;</code>
+     */
+    boolean hasCurrentCourse();
+    /**
+     * <code>optional float current_course = 3;</code>
+     */
+    float getCurrentCourse();
+
+    /**
+     * <code>optional .Location current_destination = 4;</code>
      */
     boolean hasCurrentDestination();
     /**
-     * <code>required .Location current_destination = 3;</code>
+     * <code>optional .Location current_destination = 4;</code>
      */
     se.locutus.sea_chauffeur.Messages.Location getCurrentDestination();
+
+    /**
+     * <code>optional float course_to_destination = 5;</code>
+     */
+    boolean hasCourseToDestination();
+    /**
+     * <code>optional float course_to_destination = 5;</code>
+     */
+    float getCourseToDestination();
+
+    /**
+     * <code>optional .SteeringMove steering_move = 6;</code>
+     */
+    boolean hasSteeringMove();
+    /**
+     * <code>optional .SteeringMove steering_move = 6;</code>
+     */
+    se.locutus.sea_chauffeur.Messages.SteeringMove getSteeringMove();
   }
   /**
    * Protobuf type {@code SeaResponse}
@@ -603,7 +705,7 @@ public final class Messages {
      */
     public se.locutus.sea_chauffeur.Messages.ResponseCode getResponseCode() {
       se.locutus.sea_chauffeur.Messages.ResponseCode result = se.locutus.sea_chauffeur.Messages.ResponseCode.forNumber(responseCode_);
-      return result == null ? se.locutus.sea_chauffeur.Messages.ResponseCode.UKNOWN : result;
+      return result == null ? se.locutus.sea_chauffeur.Messages.ResponseCode.RESPONSE_CODE_UNKNOWN : result;
     }
     /**
      * <code>required .ResponseCode response_code = 1;</code>
@@ -675,40 +777,69 @@ public final class Messages {
       bitField0_ = (bitField0_ & ~0x00000002);
     }
 
-    public static final int CURRENT_DESTINATION_FIELD_NUMBER = 3;
-    private se.locutus.sea_chauffeur.Messages.Location currentDestination_;
+    public static final int CURRENT_COURSE_FIELD_NUMBER = 3;
+    private float currentCourse_;
     /**
-     * <code>required .Location current_destination = 3;</code>
+     * <code>optional float current_course = 3;</code>
      */
-    public boolean hasCurrentDestination() {
+    public boolean hasCurrentCourse() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>required .Location current_destination = 3;</code>
+     * <code>optional float current_course = 3;</code>
+     */
+    public float getCurrentCourse() {
+      return currentCourse_;
+    }
+    /**
+     * <code>optional float current_course = 3;</code>
+     */
+    private void setCurrentCourse(float value) {
+      bitField0_ |= 0x00000004;
+      currentCourse_ = value;
+    }
+    /**
+     * <code>optional float current_course = 3;</code>
+     */
+    private void clearCurrentCourse() {
+      bitField0_ = (bitField0_ & ~0x00000004);
+      currentCourse_ = 0F;
+    }
+
+    public static final int CURRENT_DESTINATION_FIELD_NUMBER = 4;
+    private se.locutus.sea_chauffeur.Messages.Location currentDestination_;
+    /**
+     * <code>optional .Location current_destination = 4;</code>
+     */
+    public boolean hasCurrentDestination() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional .Location current_destination = 4;</code>
      */
     public se.locutus.sea_chauffeur.Messages.Location getCurrentDestination() {
       return currentDestination_ == null ? se.locutus.sea_chauffeur.Messages.Location.getDefaultInstance() : currentDestination_;
     }
     /**
-     * <code>required .Location current_destination = 3;</code>
+     * <code>optional .Location current_destination = 4;</code>
      */
     private void setCurrentDestination(se.locutus.sea_chauffeur.Messages.Location value) {
       if (value == null) {
         throw new NullPointerException();
       }
       currentDestination_ = value;
-      bitField0_ |= 0x00000004;
+      bitField0_ |= 0x00000008;
       }
     /**
-     * <code>required .Location current_destination = 3;</code>
+     * <code>optional .Location current_destination = 4;</code>
      */
     private void setCurrentDestination(
         se.locutus.sea_chauffeur.Messages.Location.Builder builderForValue) {
       currentDestination_ = builderForValue.build();
-      bitField0_ |= 0x00000004;
+      bitField0_ |= 0x00000008;
     }
     /**
-     * <code>required .Location current_destination = 3;</code>
+     * <code>optional .Location current_destination = 4;</code>
      */
     private void mergeCurrentDestination(se.locutus.sea_chauffeur.Messages.Location value) {
       if (currentDestination_ != null &&
@@ -718,13 +849,94 @@ public final class Messages {
       } else {
         currentDestination_ = value;
       }
-      bitField0_ |= 0x00000004;
+      bitField0_ |= 0x00000008;
     }
     /**
-     * <code>required .Location current_destination = 3;</code>
+     * <code>optional .Location current_destination = 4;</code>
      */
     private void clearCurrentDestination() {  currentDestination_ = null;
-      bitField0_ = (bitField0_ & ~0x00000004);
+      bitField0_ = (bitField0_ & ~0x00000008);
+    }
+
+    public static final int COURSE_TO_DESTINATION_FIELD_NUMBER = 5;
+    private float courseToDestination_;
+    /**
+     * <code>optional float course_to_destination = 5;</code>
+     */
+    public boolean hasCourseToDestination() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional float course_to_destination = 5;</code>
+     */
+    public float getCourseToDestination() {
+      return courseToDestination_;
+    }
+    /**
+     * <code>optional float course_to_destination = 5;</code>
+     */
+    private void setCourseToDestination(float value) {
+      bitField0_ |= 0x00000010;
+      courseToDestination_ = value;
+    }
+    /**
+     * <code>optional float course_to_destination = 5;</code>
+     */
+    private void clearCourseToDestination() {
+      bitField0_ = (bitField0_ & ~0x00000010);
+      courseToDestination_ = 0F;
+    }
+
+    public static final int STEERING_MOVE_FIELD_NUMBER = 6;
+    private se.locutus.sea_chauffeur.Messages.SteeringMove steeringMove_;
+    /**
+     * <code>optional .SteeringMove steering_move = 6;</code>
+     */
+    public boolean hasSteeringMove() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional .SteeringMove steering_move = 6;</code>
+     */
+    public se.locutus.sea_chauffeur.Messages.SteeringMove getSteeringMove() {
+      return steeringMove_ == null ? se.locutus.sea_chauffeur.Messages.SteeringMove.getDefaultInstance() : steeringMove_;
+    }
+    /**
+     * <code>optional .SteeringMove steering_move = 6;</code>
+     */
+    private void setSteeringMove(se.locutus.sea_chauffeur.Messages.SteeringMove value) {
+      if (value == null) {
+        throw new NullPointerException();
+      }
+      steeringMove_ = value;
+      bitField0_ |= 0x00000020;
+      }
+    /**
+     * <code>optional .SteeringMove steering_move = 6;</code>
+     */
+    private void setSteeringMove(
+        se.locutus.sea_chauffeur.Messages.SteeringMove.Builder builderForValue) {
+      steeringMove_ = builderForValue.build();
+      bitField0_ |= 0x00000020;
+    }
+    /**
+     * <code>optional .SteeringMove steering_move = 6;</code>
+     */
+    private void mergeSteeringMove(se.locutus.sea_chauffeur.Messages.SteeringMove value) {
+      if (steeringMove_ != null &&
+          steeringMove_ != se.locutus.sea_chauffeur.Messages.SteeringMove.getDefaultInstance()) {
+        steeringMove_ =
+          se.locutus.sea_chauffeur.Messages.SteeringMove.newBuilder(steeringMove_).mergeFrom(value).buildPartial();
+      } else {
+        steeringMove_ = value;
+      }
+      bitField0_ |= 0x00000020;
+    }
+    /**
+     * <code>optional .SteeringMove steering_move = 6;</code>
+     */
+    private void clearSteeringMove() {  steeringMove_ = null;
+      bitField0_ = (bitField0_ & ~0x00000020);
     }
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
@@ -736,7 +948,16 @@ public final class Messages {
         output.writeMessage(2, getCurrentLocation());
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeMessage(3, getCurrentDestination());
+        output.writeFloat(3, currentCourse_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeMessage(4, getCurrentDestination());
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeFloat(5, courseToDestination_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeMessage(6, getSteeringMove());
       }
       unknownFields.writeTo(output);
     }
@@ -756,7 +977,19 @@ public final class Messages {
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, getCurrentDestination());
+          .computeFloatSize(3, currentCourse_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, getCurrentDestination());
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(5, courseToDestination_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(6, getSteeringMove());
       }
       size += unknownFields.getSerializedSize();
       memoizedSerializedSize = size;
@@ -920,19 +1153,48 @@ public final class Messages {
       }
 
       /**
-       * <code>required .Location current_destination = 3;</code>
+       * <code>optional float current_course = 3;</code>
+       */
+      public boolean hasCurrentCourse() {
+        return instance.hasCurrentCourse();
+      }
+      /**
+       * <code>optional float current_course = 3;</code>
+       */
+      public float getCurrentCourse() {
+        return instance.getCurrentCourse();
+      }
+      /**
+       * <code>optional float current_course = 3;</code>
+       */
+      public Builder setCurrentCourse(float value) {
+        copyOnWrite();
+        instance.setCurrentCourse(value);
+        return this;
+      }
+      /**
+       * <code>optional float current_course = 3;</code>
+       */
+      public Builder clearCurrentCourse() {
+        copyOnWrite();
+        instance.clearCurrentCourse();
+        return this;
+      }
+
+      /**
+       * <code>optional .Location current_destination = 4;</code>
        */
       public boolean hasCurrentDestination() {
         return instance.hasCurrentDestination();
       }
       /**
-       * <code>required .Location current_destination = 3;</code>
+       * <code>optional .Location current_destination = 4;</code>
        */
       public se.locutus.sea_chauffeur.Messages.Location getCurrentDestination() {
         return instance.getCurrentDestination();
       }
       /**
-       * <code>required .Location current_destination = 3;</code>
+       * <code>optional .Location current_destination = 4;</code>
        */
       public Builder setCurrentDestination(se.locutus.sea_chauffeur.Messages.Location value) {
         copyOnWrite();
@@ -940,7 +1202,7 @@ public final class Messages {
         return this;
         }
       /**
-       * <code>required .Location current_destination = 3;</code>
+       * <code>optional .Location current_destination = 4;</code>
        */
       public Builder setCurrentDestination(
           se.locutus.sea_chauffeur.Messages.Location.Builder builderForValue) {
@@ -949,7 +1211,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>required .Location current_destination = 3;</code>
+       * <code>optional .Location current_destination = 4;</code>
        */
       public Builder mergeCurrentDestination(se.locutus.sea_chauffeur.Messages.Location value) {
         copyOnWrite();
@@ -957,10 +1219,84 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>required .Location current_destination = 3;</code>
+       * <code>optional .Location current_destination = 4;</code>
        */
       public Builder clearCurrentDestination() {  copyOnWrite();
         instance.clearCurrentDestination();
+        return this;
+      }
+
+      /**
+       * <code>optional float course_to_destination = 5;</code>
+       */
+      public boolean hasCourseToDestination() {
+        return instance.hasCourseToDestination();
+      }
+      /**
+       * <code>optional float course_to_destination = 5;</code>
+       */
+      public float getCourseToDestination() {
+        return instance.getCourseToDestination();
+      }
+      /**
+       * <code>optional float course_to_destination = 5;</code>
+       */
+      public Builder setCourseToDestination(float value) {
+        copyOnWrite();
+        instance.setCourseToDestination(value);
+        return this;
+      }
+      /**
+       * <code>optional float course_to_destination = 5;</code>
+       */
+      public Builder clearCourseToDestination() {
+        copyOnWrite();
+        instance.clearCourseToDestination();
+        return this;
+      }
+
+      /**
+       * <code>optional .SteeringMove steering_move = 6;</code>
+       */
+      public boolean hasSteeringMove() {
+        return instance.hasSteeringMove();
+      }
+      /**
+       * <code>optional .SteeringMove steering_move = 6;</code>
+       */
+      public se.locutus.sea_chauffeur.Messages.SteeringMove getSteeringMove() {
+        return instance.getSteeringMove();
+      }
+      /**
+       * <code>optional .SteeringMove steering_move = 6;</code>
+       */
+      public Builder setSteeringMove(se.locutus.sea_chauffeur.Messages.SteeringMove value) {
+        copyOnWrite();
+        instance.setSteeringMove(value);
+        return this;
+        }
+      /**
+       * <code>optional .SteeringMove steering_move = 6;</code>
+       */
+      public Builder setSteeringMove(
+          se.locutus.sea_chauffeur.Messages.SteeringMove.Builder builderForValue) {
+        copyOnWrite();
+        instance.setSteeringMove(builderForValue);
+        return this;
+      }
+      /**
+       * <code>optional .SteeringMove steering_move = 6;</code>
+       */
+      public Builder mergeSteeringMove(se.locutus.sea_chauffeur.Messages.SteeringMove value) {
+        copyOnWrite();
+        instance.mergeSteeringMove(value);
+        return this;
+      }
+      /**
+       * <code>optional .SteeringMove steering_move = 6;</code>
+       */
+      public Builder clearSteeringMove() {  copyOnWrite();
+        instance.clearSteeringMove();
         return this;
       }
 
@@ -986,12 +1322,6 @@ public final class Messages {
             }
             return null;
           }
-          if (!hasCurrentDestination()) {
-            if (shouldMemoize) {
-              memoizedIsInitialized = 0;
-            }
-            return null;
-          }
           if (hasCurrentLocation()) {
             if (!getCurrentLocation().isInitialized()) {
               if (shouldMemoize) {
@@ -1000,11 +1330,21 @@ public final class Messages {
               return null;
             }
           }
-          if (!getCurrentDestination().isInitialized()) {
-            if (shouldMemoize) {
-              memoizedIsInitialized = 0;
+          if (hasCurrentDestination()) {
+            if (!getCurrentDestination().isInitialized()) {
+              if (shouldMemoize) {
+                memoizedIsInitialized = 0;
+              }
+              return null;
             }
-            return null;
+          }
+          if (hasSteeringMove()) {
+            if (!getSteeringMove().isInitialized()) {
+              if (shouldMemoize) {
+                memoizedIsInitialized = 0;
+              }
+              return null;
+            }
           }
           if (shouldMemoize) memoizedIsInitialized = 1;
           return DEFAULT_INSTANCE;
@@ -1022,7 +1362,14 @@ public final class Messages {
           responseCode_ = visitor.visitInt(hasResponseCode(), responseCode_,
               other.hasResponseCode(), other.responseCode_);
           currentLocation_ = visitor.visitMessage(currentLocation_, other.currentLocation_);
+          currentCourse_ = visitor.visitFloat(
+              hasCurrentCourse(), currentCourse_,
+              other.hasCurrentCourse(), other.currentCourse_);
           currentDestination_ = visitor.visitMessage(currentDestination_, other.currentDestination_);
+          courseToDestination_ = visitor.visitFloat(
+              hasCourseToDestination(), courseToDestination_,
+              other.hasCourseToDestination(), other.courseToDestination_);
+          steeringMove_ = visitor.visitMessage(steeringMove_, other.steeringMove_);
           if (visitor == com.google.protobuf.GeneratedMessageLite.MergeFromVisitor
               .INSTANCE) {
             bitField0_ |= other.bitField0_;
@@ -1072,9 +1419,14 @@ public final class Messages {
                   bitField0_ |= 0x00000002;
                   break;
                 }
-                case 26: {
+                case 29: {
+                  bitField0_ |= 0x00000004;
+                  currentCourse_ = input.readFloat();
+                  break;
+                }
+                case 34: {
                   se.locutus.sea_chauffeur.Messages.Location.Builder subBuilder = null;
-                  if (((bitField0_ & 0x00000004) == 0x00000004)) {
+                  if (((bitField0_ & 0x00000008) == 0x00000008)) {
                     subBuilder = currentDestination_.toBuilder();
                   }
                   currentDestination_ = input.readMessage(se.locutus.sea_chauffeur.Messages.Location.parser(), extensionRegistry);
@@ -1082,7 +1434,25 @@ public final class Messages {
                     subBuilder.mergeFrom(currentDestination_);
                     currentDestination_ = subBuilder.buildPartial();
                   }
-                  bitField0_ |= 0x00000004;
+                  bitField0_ |= 0x00000008;
+                  break;
+                }
+                case 45: {
+                  bitField0_ |= 0x00000010;
+                  courseToDestination_ = input.readFloat();
+                  break;
+                }
+                case 50: {
+                  se.locutus.sea_chauffeur.Messages.SteeringMove.Builder subBuilder = null;
+                  if (((bitField0_ & 0x00000020) == 0x00000020)) {
+                    subBuilder = steeringMove_.toBuilder();
+                  }
+                  steeringMove_ = input.readMessage(se.locutus.sea_chauffeur.Messages.SteeringMove.parser(), extensionRegistry);
+                  if (subBuilder != null) {
+                    subBuilder.mergeFrom(steeringMove_);
+                    steeringMove_ = subBuilder.buildPartial();
+                  }
+                  bitField0_ |= 0x00000020;
                   break;
                 }
               }
@@ -1474,6 +1844,491 @@ public final class Messages {
     private static volatile com.google.protobuf.Parser<NavRequest> PARSER;
 
     public static com.google.protobuf.Parser<NavRequest> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface SteeringMoveOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:SteeringMove)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>required .SteeringDirection direction = 1;</code>
+     */
+    boolean hasDirection();
+    /**
+     * <code>required .SteeringDirection direction = 1;</code>
+     */
+    se.locutus.sea_chauffeur.Messages.SteeringDirection getDirection();
+
+    /**
+     * <code>required uint32 power = 2;</code>
+     */
+    boolean hasPower();
+    /**
+     * <code>required uint32 power = 2;</code>
+     */
+    int getPower();
+
+    /**
+     * <code>required uint32 millis = 3;</code>
+     */
+    boolean hasMillis();
+    /**
+     * <code>required uint32 millis = 3;</code>
+     */
+    int getMillis();
+  }
+  /**
+   * Protobuf type {@code SteeringMove}
+   */
+  public  static final class SteeringMove extends
+      com.google.protobuf.GeneratedMessageLite<
+          SteeringMove, SteeringMove.Builder> implements
+      // @@protoc_insertion_point(message_implements:SteeringMove)
+      SteeringMoveOrBuilder {
+    private SteeringMove() {
+    }
+    private int bitField0_;
+    public static final int DIRECTION_FIELD_NUMBER = 1;
+    private int direction_;
+    /**
+     * <code>required .SteeringDirection direction = 1;</code>
+     */
+    public boolean hasDirection() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required .SteeringDirection direction = 1;</code>
+     */
+    public se.locutus.sea_chauffeur.Messages.SteeringDirection getDirection() {
+      se.locutus.sea_chauffeur.Messages.SteeringDirection result = se.locutus.sea_chauffeur.Messages.SteeringDirection.forNumber(direction_);
+      return result == null ? se.locutus.sea_chauffeur.Messages.SteeringDirection.STEERING_DIRECTION_UNKNOWN : result;
+    }
+    /**
+     * <code>required .SteeringDirection direction = 1;</code>
+     */
+    private void setDirection(se.locutus.sea_chauffeur.Messages.SteeringDirection value) {
+      if (value == null) {
+        throw new NullPointerException();
+      }
+      bitField0_ |= 0x00000001;
+      direction_ = value.getNumber();
+    }
+    /**
+     * <code>required .SteeringDirection direction = 1;</code>
+     */
+    private void clearDirection() {
+      bitField0_ = (bitField0_ & ~0x00000001);
+      direction_ = 0;
+    }
+
+    public static final int POWER_FIELD_NUMBER = 2;
+    private int power_;
+    /**
+     * <code>required uint32 power = 2;</code>
+     */
+    public boolean hasPower() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required uint32 power = 2;</code>
+     */
+    public int getPower() {
+      return power_;
+    }
+    /**
+     * <code>required uint32 power = 2;</code>
+     */
+    private void setPower(int value) {
+      bitField0_ |= 0x00000002;
+      power_ = value;
+    }
+    /**
+     * <code>required uint32 power = 2;</code>
+     */
+    private void clearPower() {
+      bitField0_ = (bitField0_ & ~0x00000002);
+      power_ = 0;
+    }
+
+    public static final int MILLIS_FIELD_NUMBER = 3;
+    private int millis_;
+    /**
+     * <code>required uint32 millis = 3;</code>
+     */
+    public boolean hasMillis() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required uint32 millis = 3;</code>
+     */
+    public int getMillis() {
+      return millis_;
+    }
+    /**
+     * <code>required uint32 millis = 3;</code>
+     */
+    private void setMillis(int value) {
+      bitField0_ |= 0x00000004;
+      millis_ = value;
+    }
+    /**
+     * <code>required uint32 millis = 3;</code>
+     */
+    private void clearMillis() {
+      bitField0_ = (bitField0_ & ~0x00000004);
+      millis_ = 0;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeEnum(1, direction_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeUInt32(2, power_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeUInt32(3, millis_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, direction_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(2, power_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(3, millis_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    public static se.locutus.sea_chauffeur.Messages.SteeringMove parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static se.locutus.sea_chauffeur.Messages.SteeringMove parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static se.locutus.sea_chauffeur.Messages.SteeringMove parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static se.locutus.sea_chauffeur.Messages.SteeringMove parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static se.locutus.sea_chauffeur.Messages.SteeringMove parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static se.locutus.sea_chauffeur.Messages.SteeringMove parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static se.locutus.sea_chauffeur.Messages.SteeringMove parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+    public static se.locutus.sea_chauffeur.Messages.SteeringMove parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static se.locutus.sea_chauffeur.Messages.SteeringMove parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static se.locutus.sea_chauffeur.Messages.SteeringMove parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(se.locutus.sea_chauffeur.Messages.SteeringMove prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+
+    /**
+     * Protobuf type {@code SteeringMove}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          se.locutus.sea_chauffeur.Messages.SteeringMove, Builder> implements
+        // @@protoc_insertion_point(builder_implements:SteeringMove)
+        se.locutus.sea_chauffeur.Messages.SteeringMoveOrBuilder {
+      // Construct using se.locutus.sea_chauffeur.Messages.SteeringMove.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>required .SteeringDirection direction = 1;</code>
+       */
+      public boolean hasDirection() {
+        return instance.hasDirection();
+      }
+      /**
+       * <code>required .SteeringDirection direction = 1;</code>
+       */
+      public se.locutus.sea_chauffeur.Messages.SteeringDirection getDirection() {
+        return instance.getDirection();
+      }
+      /**
+       * <code>required .SteeringDirection direction = 1;</code>
+       */
+      public Builder setDirection(se.locutus.sea_chauffeur.Messages.SteeringDirection value) {
+        copyOnWrite();
+        instance.setDirection(value);
+        return this;
+      }
+      /**
+       * <code>required .SteeringDirection direction = 1;</code>
+       */
+      public Builder clearDirection() {
+        copyOnWrite();
+        instance.clearDirection();
+        return this;
+      }
+
+      /**
+       * <code>required uint32 power = 2;</code>
+       */
+      public boolean hasPower() {
+        return instance.hasPower();
+      }
+      /**
+       * <code>required uint32 power = 2;</code>
+       */
+      public int getPower() {
+        return instance.getPower();
+      }
+      /**
+       * <code>required uint32 power = 2;</code>
+       */
+      public Builder setPower(int value) {
+        copyOnWrite();
+        instance.setPower(value);
+        return this;
+      }
+      /**
+       * <code>required uint32 power = 2;</code>
+       */
+      public Builder clearPower() {
+        copyOnWrite();
+        instance.clearPower();
+        return this;
+      }
+
+      /**
+       * <code>required uint32 millis = 3;</code>
+       */
+      public boolean hasMillis() {
+        return instance.hasMillis();
+      }
+      /**
+       * <code>required uint32 millis = 3;</code>
+       */
+      public int getMillis() {
+        return instance.getMillis();
+      }
+      /**
+       * <code>required uint32 millis = 3;</code>
+       */
+      public Builder setMillis(int value) {
+        copyOnWrite();
+        instance.setMillis(value);
+        return this;
+      }
+      /**
+       * <code>required uint32 millis = 3;</code>
+       */
+      public Builder clearMillis() {
+        copyOnWrite();
+        instance.clearMillis();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:SteeringMove)
+    }
+    private byte memoizedIsInitialized = -1;
+    protected final Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        Object arg0, Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new se.locutus.sea_chauffeur.Messages.SteeringMove();
+        }
+        case IS_INITIALIZED: {
+          byte isInitialized = memoizedIsInitialized;
+          if (isInitialized == 1) return DEFAULT_INSTANCE;
+          if (isInitialized == 0) return null;
+
+          boolean shouldMemoize = ((Boolean) arg0).booleanValue();
+          if (!hasDirection()) {
+            if (shouldMemoize) {
+              memoizedIsInitialized = 0;
+            }
+            return null;
+          }
+          if (!hasPower()) {
+            if (shouldMemoize) {
+              memoizedIsInitialized = 0;
+            }
+            return null;
+          }
+          if (!hasMillis()) {
+            if (shouldMemoize) {
+              memoizedIsInitialized = 0;
+            }
+            return null;
+          }
+          if (shouldMemoize) memoizedIsInitialized = 1;
+          return DEFAULT_INSTANCE;
+
+        }
+        case MAKE_IMMUTABLE: {
+          return null;
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case VISIT: {
+          Visitor visitor = (Visitor) arg0;
+          se.locutus.sea_chauffeur.Messages.SteeringMove other = (se.locutus.sea_chauffeur.Messages.SteeringMove) arg1;
+          direction_ = visitor.visitInt(hasDirection(), direction_,
+              other.hasDirection(), other.direction_);
+          power_ = visitor.visitInt(
+              hasPower(), power_,
+              other.hasPower(), other.power_);
+          millis_ = visitor.visitInt(
+              hasMillis(), millis_,
+              other.hasMillis(), other.millis_);
+          if (visitor == com.google.protobuf.GeneratedMessageLite.MergeFromVisitor
+              .INSTANCE) {
+            bitField0_ |= other.bitField0_;
+          }
+          return this;
+        }
+        case MERGE_FROM_STREAM: {
+          com.google.protobuf.CodedInputStream input =
+              (com.google.protobuf.CodedInputStream) arg0;
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry =
+              (com.google.protobuf.ExtensionRegistryLite) arg1;
+          try {
+            boolean done = false;
+            while (!done) {
+              int tag = input.readTag();
+              switch (tag) {
+                case 0:
+                  done = true;
+                  break;
+                default: {
+                  if (!parseUnknownField(tag, input)) {
+                    done = true;
+                  }
+                  break;
+                }
+                case 8: {
+                  int rawValue = input.readEnum();
+                  se.locutus.sea_chauffeur.Messages.SteeringDirection value = se.locutus.sea_chauffeur.Messages.SteeringDirection.forNumber(rawValue);
+                  if (value == null) {
+                    super.mergeVarintField(1, rawValue);
+                  } else {
+                    bitField0_ |= 0x00000001;
+                    direction_ = rawValue;
+                  }
+                  break;
+                }
+                case 16: {
+                  bitField0_ |= 0x00000002;
+                  power_ = input.readUInt32();
+                  break;
+                }
+                case 24: {
+                  bitField0_ |= 0x00000004;
+                  millis_ = input.readUInt32();
+                  break;
+                }
+              }
+            }
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            throw new RuntimeException(e.setUnfinishedMessage(this));
+          } catch (java.io.IOException e) {
+            throw new RuntimeException(
+                new com.google.protobuf.InvalidProtocolBufferException(
+                    e.getMessage()).setUnfinishedMessage(this));
+          } finally {
+          }
+        }
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          if (PARSER == null) {    synchronized (se.locutus.sea_chauffeur.Messages.SteeringMove.class) {
+              if (PARSER == null) {
+                PARSER = new DefaultInstanceBasedParser(DEFAULT_INSTANCE);
+              }
+            }
+          }
+          return PARSER;
+        }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:SteeringMove)
+    private static final se.locutus.sea_chauffeur.Messages.SteeringMove DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new SteeringMove();
+      DEFAULT_INSTANCE.makeImmutable();
+    }
+
+    public static se.locutus.sea_chauffeur.Messages.SteeringMove getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<SteeringMove> PARSER;
+
+    public static com.google.protobuf.Parser<SteeringMove> parser() {
       return DEFAULT_INSTANCE.getParserForType();
     }
   }

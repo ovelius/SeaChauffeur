@@ -6,21 +6,18 @@
 #define GPS_DATA_CACHE 10
 #define COURSE_CORRECTION_MILLIS 5000
 #define COURSE_DEVIATION_THRESHOLD 1.0f
-#define COURSE_DEVIATION_POWER_MULTIPLIER 100
-#define COURSE_DEVIATION_TIME_MULTIPLIER 30
+#define _GPS_MPS_PER_KNOT 0.51444444
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-struct NavLibConfiguration {
+struct _NavLibConfiguration {
   short millis_duration_per_degree_second;
   unsigned char power_low_mode;
   unsigned char power_medium_mode;
   float knots_to_lock_course;
 };
-
-extern struct NavLibConfiguration nav_lib_configuration;
 
 struct _GpsData {
 	float lat;
@@ -35,11 +32,14 @@ struct _GpsData {
 struct _CurrentDestination {
 	// TODO: Add lat/lng here?
 	// Course we are steering after.
+  float lat;
+  float lng;
 	float course;
 };
 
 typedef struct _GpsData GpsData;
 typedef struct _CurrentDestination CurrentDestination;
+typedef struct _NavLibConfiguration NavLibConfiguration;
 
 struct _NavState {
   // Keep up to GPS_DATA_CACHE seconds of historical data.
@@ -70,6 +70,8 @@ struct _SteerCommand {
 typedef struct _NavState NavState;
 typedef struct _SteerCommand SteerCommand;
 
+extern NavLibConfiguration nav_lib_configuration;
+extern CurrentDestination current_destination;
 
 // Should run at most once a second. We assume location data is uniformly distributed.
 SteerCommand newLocationData(NavState* navState, GpsData* GpsData);

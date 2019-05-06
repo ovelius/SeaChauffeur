@@ -141,17 +141,20 @@ void loop () {
      Serial.print(" lng ");
      Serial.print(request.nav_request.location.lng, 8);
      Serial.println();
+     current_destination.lat = request.nav_request.location.lat;
+     current_destination.lng = request.nav_request.location.lng;
 
      uint8_t response_buffer[128];
      response = SeaResponse_init_zero;
      response.response_code = ResponseCode_OK;
+     response.has_current_destination = true;
      response.current_destination.lat = 123.0f;
      response.current_destination.lng = 321.0f;
      pb_ostream_t ostream = pb_ostream_from_buffer(response_buffer, sizeof(response_buffer));
      // Can't encode optional fields here... see https://github.com/nanopb/nanopb/issues/198
      bool status = pb_encode_delimited(&ostream, SeaResponse_fields, &response);
      if (!status) {
-       Serial.println("Failed to encode proto response message! Error is: ");
+       Serial.println(F("Failed to enc response message! Error: "));
        Serial.print(ostream.errmsg);
        Serial.println();
        return;

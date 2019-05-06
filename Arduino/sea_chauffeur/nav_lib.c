@@ -4,7 +4,8 @@
 #include <assert.h> 
 #include "nav_lib.h"
 
-struct NavLibConfiguration nav_lib_configuration;
+NavLibConfiguration nav_lib_configuration;
+CurrentDestination current_destination;
 
 float calculateCourseDeviation(NavState* navState, int time_period_millis) {
 	unsigned long time_reference = navState->gps_data[0].time;
@@ -46,6 +47,15 @@ void pushLocationData(NavState* navState, GpsData gpsData, int index) {
 	pushLocationData(navState, t, index + 1);
 }
 
+unsigned char enginePower(float courseDiffPerDegreeSecond) {
+	if (fabs(courseDiffPerDegreeSecond) < 0.05) {
+		return nav_lib_configuration.power_low_mode;
+	} else if (fabs(courseDiffPerDegreeSecond) < 0.15) {
+		return nav_lib_configuration.power_medium_mode;
+	}
+	return 255;
+}
+
 SteerCommand newLocationData(NavState* navState, GpsData* gpsData) {
 	// First push the new data to the location history stack.
 	unsigned long current_time = gpsData->time;
@@ -59,8 +69,8 @@ SteerCommand newLocationData(NavState* navState, GpsData* gpsData) {
 	if (fabs(course_deviation) > COURSE_DEVIATION_THRESHOLD && current_time > navState->next_command_possible) {
 		command.direction = course_deviation > 0 ? Left : Right;
 		command.reverse_duration = -1;
-		command.power = fabs(fmin(COURSE_DEVIATION_POWER_MULTIPLIER * course_deviation, 255));
-		command.millis_duration = fabs(COURSE_DEVIATION_TIME_MULTIPLIER * course_deviation);
+		command.power = enginePower(course_deviation);
+		command.millis_duration = fabs(nav_lib_configuration.millis_duration_per_degree_second * course_deviation);
 		
 		navState->next_command_possible = current_time + command.millis_duration + COURSE_CORRECTION_MILLIS/2;
 	}

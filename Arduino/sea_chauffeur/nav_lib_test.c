@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <math.h>
 #include "nav_lib.h"
+#include "queue_lib.h"
 
 START_TEST (base_feed_location)
 {
@@ -91,6 +92,21 @@ START_TEST (base_course_correction)
 }
 END_TEST
 
+
+START_TEST (queue_event_test)
+{
+	QuedEvent event;
+	event.time = 123;
+	ck_assert(queEvent(event));
+    QuedEvent unQued;
+	// Not enough time has passed.
+    ck_assert(!unqueEvent(1, &unQued));
+	// Now it has.
+	ck_assert(unqueEvent(123, &unQued));
+	// TODO: Complete this test.
+}
+END_TEST
+
 int main(void) {
     Suite *s1 = suite_create("Core");
     TCase *tc1_1 = tcase_create("Core");
@@ -100,6 +116,7 @@ int main(void) {
     suite_add_tcase(s1, tc1_1);
     tcase_add_test(tc1_1, base_feed_location);
 	tcase_add_test(tc1_1, base_course_correction);
+	tcase_add_test(tc1_1, queue_event_test);
 
     srunner_run_all(sr, CK_ENV);
     nf = srunner_ntests_failed(sr);
