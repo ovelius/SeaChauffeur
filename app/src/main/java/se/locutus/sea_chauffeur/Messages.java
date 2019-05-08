@@ -170,6 +170,15 @@ public final class Messages {
      * <code>optional .Configuration update_configuration = 2;</code>
      */
     se.locutus.sea_chauffeur.Messages.Configuration getUpdateConfiguration();
+
+    /**
+     * <code>optional .SteeringMove trim_request = 3;</code>
+     */
+    boolean hasTrimRequest();
+    /**
+     * <code>optional .SteeringMove trim_request = 3;</code>
+     */
+    se.locutus.sea_chauffeur.Messages.SteeringMove getTrimRequest();
   }
   /**
    * Protobuf type {@code SeaRequest}
@@ -286,6 +295,58 @@ public final class Messages {
       bitField0_ = (bitField0_ & ~0x00000002);
     }
 
+    public static final int TRIM_REQUEST_FIELD_NUMBER = 3;
+    private se.locutus.sea_chauffeur.Messages.SteeringMove trimRequest_;
+    /**
+     * <code>optional .SteeringMove trim_request = 3;</code>
+     */
+    public boolean hasTrimRequest() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional .SteeringMove trim_request = 3;</code>
+     */
+    public se.locutus.sea_chauffeur.Messages.SteeringMove getTrimRequest() {
+      return trimRequest_ == null ? se.locutus.sea_chauffeur.Messages.SteeringMove.getDefaultInstance() : trimRequest_;
+    }
+    /**
+     * <code>optional .SteeringMove trim_request = 3;</code>
+     */
+    private void setTrimRequest(se.locutus.sea_chauffeur.Messages.SteeringMove value) {
+      if (value == null) {
+        throw new NullPointerException();
+      }
+      trimRequest_ = value;
+      bitField0_ |= 0x00000004;
+      }
+    /**
+     * <code>optional .SteeringMove trim_request = 3;</code>
+     */
+    private void setTrimRequest(
+        se.locutus.sea_chauffeur.Messages.SteeringMove.Builder builderForValue) {
+      trimRequest_ = builderForValue.build();
+      bitField0_ |= 0x00000004;
+    }
+    /**
+     * <code>optional .SteeringMove trim_request = 3;</code>
+     */
+    private void mergeTrimRequest(se.locutus.sea_chauffeur.Messages.SteeringMove value) {
+      if (trimRequest_ != null &&
+          trimRequest_ != se.locutus.sea_chauffeur.Messages.SteeringMove.getDefaultInstance()) {
+        trimRequest_ =
+          se.locutus.sea_chauffeur.Messages.SteeringMove.newBuilder(trimRequest_).mergeFrom(value).buildPartial();
+      } else {
+        trimRequest_ = value;
+      }
+      bitField0_ |= 0x00000004;
+    }
+    /**
+     * <code>optional .SteeringMove trim_request = 3;</code>
+     */
+    private void clearTrimRequest() {  trimRequest_ = null;
+      bitField0_ = (bitField0_ & ~0x00000004);
+    }
+
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
@@ -293,6 +354,9 @@ public final class Messages {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeMessage(2, getUpdateConfiguration());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeMessage(3, getTrimRequest());
       }
       unknownFields.writeTo(output);
     }
@@ -309,6 +373,10 @@ public final class Messages {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, getUpdateConfiguration());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, getTrimRequest());
       }
       size += unknownFields.getSerializedSize();
       memoizedSerializedSize = size;
@@ -487,6 +555,51 @@ public final class Messages {
         return this;
       }
 
+      /**
+       * <code>optional .SteeringMove trim_request = 3;</code>
+       */
+      public boolean hasTrimRequest() {
+        return instance.hasTrimRequest();
+      }
+      /**
+       * <code>optional .SteeringMove trim_request = 3;</code>
+       */
+      public se.locutus.sea_chauffeur.Messages.SteeringMove getTrimRequest() {
+        return instance.getTrimRequest();
+      }
+      /**
+       * <code>optional .SteeringMove trim_request = 3;</code>
+       */
+      public Builder setTrimRequest(se.locutus.sea_chauffeur.Messages.SteeringMove value) {
+        copyOnWrite();
+        instance.setTrimRequest(value);
+        return this;
+        }
+      /**
+       * <code>optional .SteeringMove trim_request = 3;</code>
+       */
+      public Builder setTrimRequest(
+          se.locutus.sea_chauffeur.Messages.SteeringMove.Builder builderForValue) {
+        copyOnWrite();
+        instance.setTrimRequest(builderForValue);
+        return this;
+      }
+      /**
+       * <code>optional .SteeringMove trim_request = 3;</code>
+       */
+      public Builder mergeTrimRequest(se.locutus.sea_chauffeur.Messages.SteeringMove value) {
+        copyOnWrite();
+        instance.mergeTrimRequest(value);
+        return this;
+      }
+      /**
+       * <code>optional .SteeringMove trim_request = 3;</code>
+       */
+      public Builder clearTrimRequest() {  copyOnWrite();
+        instance.clearTrimRequest();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:SeaRequest)
     }
     private byte memoizedIsInitialized = -1;
@@ -511,6 +624,14 @@ public final class Messages {
               return null;
             }
           }
+          if (hasTrimRequest()) {
+            if (!getTrimRequest().isInitialized()) {
+              if (shouldMemoize) {
+                memoizedIsInitialized = 0;
+              }
+              return null;
+            }
+          }
           if (shouldMemoize) memoizedIsInitialized = 1;
           return DEFAULT_INSTANCE;
 
@@ -526,6 +647,7 @@ public final class Messages {
           se.locutus.sea_chauffeur.Messages.SeaRequest other = (se.locutus.sea_chauffeur.Messages.SeaRequest) arg1;
           navRequest_ = visitor.visitMessage(navRequest_, other.navRequest_);
           updateConfiguration_ = visitor.visitMessage(updateConfiguration_, other.updateConfiguration_);
+          trimRequest_ = visitor.visitMessage(trimRequest_, other.trimRequest_);
           if (visitor == com.google.protobuf.GeneratedMessageLite.MergeFromVisitor
               .INSTANCE) {
             bitField0_ |= other.bitField0_;
@@ -575,6 +697,19 @@ public final class Messages {
                     updateConfiguration_ = subBuilder.buildPartial();
                   }
                   bitField0_ |= 0x00000002;
+                  break;
+                }
+                case 26: {
+                  se.locutus.sea_chauffeur.Messages.SteeringMove.Builder subBuilder = null;
+                  if (((bitField0_ & 0x00000004) == 0x00000004)) {
+                    subBuilder = trimRequest_.toBuilder();
+                  }
+                  trimRequest_ = input.readMessage(se.locutus.sea_chauffeur.Messages.SteeringMove.parser(), extensionRegistry);
+                  if (subBuilder != null) {
+                    subBuilder.mergeFrom(trimRequest_);
+                    trimRequest_ = subBuilder.buildPartial();
+                  }
+                  bitField0_ |= 0x00000004;
                   break;
                 }
               }
@@ -2726,11 +2861,11 @@ public final class Messages {
       com.google.protobuf.MessageLiteOrBuilder {
 
     /**
-     * <code>optional uint32 millis_duration_per_degree_second = 1 [default = 30];</code>
+     * <code>optional uint32 millis_duration_per_degree_second = 1 [default = 300];</code>
      */
     boolean hasMillisDurationPerDegreeSecond();
     /**
-     * <code>optional uint32 millis_duration_per_degree_second = 1 [default = 30];</code>
+     * <code>optional uint32 millis_duration_per_degree_second = 1 [default = 300];</code>
      */
     int getMillisDurationPerDegreeSecond();
 
@@ -2786,7 +2921,7 @@ public final class Messages {
       // @@protoc_insertion_point(message_implements:Configuration)
       ConfigurationOrBuilder {
     private Configuration() {
-      millisDurationPerDegreeSecond_ = 30;
+      millisDurationPerDegreeSecond_ = 300;
       powerLowMode_ = 100;
       powerMediumMode_ = 200;
       knotsToLockCourse_ = 1F;
@@ -2795,30 +2930,30 @@ public final class Messages {
     public static final int MILLIS_DURATION_PER_DEGREE_SECOND_FIELD_NUMBER = 1;
     private int millisDurationPerDegreeSecond_;
     /**
-     * <code>optional uint32 millis_duration_per_degree_second = 1 [default = 30];</code>
+     * <code>optional uint32 millis_duration_per_degree_second = 1 [default = 300];</code>
      */
     public boolean hasMillisDurationPerDegreeSecond() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>optional uint32 millis_duration_per_degree_second = 1 [default = 30];</code>
+     * <code>optional uint32 millis_duration_per_degree_second = 1 [default = 300];</code>
      */
     public int getMillisDurationPerDegreeSecond() {
       return millisDurationPerDegreeSecond_;
     }
     /**
-     * <code>optional uint32 millis_duration_per_degree_second = 1 [default = 30];</code>
+     * <code>optional uint32 millis_duration_per_degree_second = 1 [default = 300];</code>
      */
     private void setMillisDurationPerDegreeSecond(int value) {
       bitField0_ |= 0x00000001;
       millisDurationPerDegreeSecond_ = value;
     }
     /**
-     * <code>optional uint32 millis_duration_per_degree_second = 1 [default = 30];</code>
+     * <code>optional uint32 millis_duration_per_degree_second = 1 [default = 300];</code>
      */
     private void clearMillisDurationPerDegreeSecond() {
       bitField0_ = (bitField0_ & ~0x00000001);
-      millisDurationPerDegreeSecond_ = 30;
+      millisDurationPerDegreeSecond_ = 300;
     }
 
     public static final int POWER_LOW_MODE_FIELD_NUMBER = 2;
@@ -3066,19 +3201,19 @@ public final class Messages {
 
 
       /**
-       * <code>optional uint32 millis_duration_per_degree_second = 1 [default = 30];</code>
+       * <code>optional uint32 millis_duration_per_degree_second = 1 [default = 300];</code>
        */
       public boolean hasMillisDurationPerDegreeSecond() {
         return instance.hasMillisDurationPerDegreeSecond();
       }
       /**
-       * <code>optional uint32 millis_duration_per_degree_second = 1 [default = 30];</code>
+       * <code>optional uint32 millis_duration_per_degree_second = 1 [default = 300];</code>
        */
       public int getMillisDurationPerDegreeSecond() {
         return instance.getMillisDurationPerDegreeSecond();
       }
       /**
-       * <code>optional uint32 millis_duration_per_degree_second = 1 [default = 30];</code>
+       * <code>optional uint32 millis_duration_per_degree_second = 1 [default = 300];</code>
        */
       public Builder setMillisDurationPerDegreeSecond(int value) {
         copyOnWrite();
@@ -3086,7 +3221,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>optional uint32 millis_duration_per_degree_second = 1 [default = 30];</code>
+       * <code>optional uint32 millis_duration_per_degree_second = 1 [default = 300];</code>
        */
       public Builder clearMillisDurationPerDegreeSecond() {
         copyOnWrite();

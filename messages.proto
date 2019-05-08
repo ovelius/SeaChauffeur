@@ -5,6 +5,7 @@ option java_package = "se.locutus.sea_chauffeur";
 message SeaRequest {
   optional NavRequest nav_request = 1;
   optional Configuration update_configuration = 2;
+  optional SteeringMove trim_request = 3;
 }
 
 enum ResponseCode {
@@ -22,14 +23,14 @@ message SeaResponse {
   optional SteeringMove steering_move = 6;
 }
 
-message NavRequest {
-  optional Location location = 1;
-}
-
 enum SteeringDirection {
   STEERING_DIRECTION_UNKNOWN = 0;
   LEFT = 1;
   RIGHT = 2;
+}
+
+message NavRequest {
+  optional Location location = 1;
 }
 
 message SteeringMove {
@@ -44,7 +45,7 @@ message Location {
 }
 
 message Configuration {
-  optional uint32 millis_duration_per_degree_second = 1 [default = 30];
+  optional uint32 millis_duration_per_degree_second = 1 [default = 300];
   // Power settings for motor in slow nudge.
   optional uint32 power_low_mode = 2 [default = 100];
   // Power settings for motor in medium nudge.
