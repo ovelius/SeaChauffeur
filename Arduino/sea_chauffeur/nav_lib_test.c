@@ -103,7 +103,32 @@ START_TEST (queue_event_test)
     ck_assert(!unqueEvent(1, &unQued));
 	// Now it has.
 	ck_assert(unqueEvent(123, &unQued));
-	// TODO: Complete this test.
+	// Empty queue.
+	ck_assert(!unqueEvent(124, &unQued));
+	
+
+	QuedEvent one;
+	one.time = 11;	
+	QuedEvent two;
+	two.time = 22;	
+	QuedEvent three;
+	three.time = 33;	
+	// More tests.
+	ck_assert(queEvent(one));
+	ck_assert(queEvent(two));
+	ck_assert(queEvent(three));
+	
+	ck_assert(unqueEvent(11, &unQued));
+	ck_assert(unQued.time = 11);
+	ck_assert(!unqueEvent(11, &unQued));
+	ck_assert(unqueEvent(22, &unQued));
+	ck_assert(unQued.time = 22);
+	ck_assert(unqueEvent(33, &unQued));
+	ck_assert(unQued.time = 33);
+	
+	
+	// Empty queue.
+	ck_assert(!unqueEvent(999, &unQued));
 }
 END_TEST
 

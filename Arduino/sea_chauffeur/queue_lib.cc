@@ -1,5 +1,6 @@
 #include <stdbool.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include "queue_lib.h"
 
 #ifdef __cplusplus
@@ -10,26 +11,29 @@ QueNode* rootNode = 0;
 
 
 bool queEvent(QuedEvent event) {
-	if (!rootNode) {
-		rootNode = (QueNode*)malloc(sizeof(QueNode));
-		rootNode->event = event;
-		rootNode->next = 0;
-		return true;
+	QueNode** prevNodePointer = &rootNode;
+	while (*prevNodePointer) {
+		prevNodePointer = &(*prevNodePointer)->next;
 	}
-	QueNode* currentNode = rootNode;
-	while (currentNode->next) {
-		currentNode = currentNode->next;
-	}
-	currentNode->next = (QueNode*)malloc(sizeof(QueNode));
-	currentNode->next->event = event;
-	currentNode->next->next = 0;		
+	*prevNodePointer = (QueNode*)malloc(sizeof(QueNode));
+	(*prevNodePointer)->event = event;
+	(*prevNodePointer)->next = 0;
 	return true;
 }
 
 bool unqueEvent(unsigned long time, QuedEvent* output) {
 	QueNode* currentNode = rootNode;
-	if (currentNode->event.time <= time) {
+	QueNode** prevNodePointer = &rootNode;
+	
+	while (currentNode && currentNode->event.time > time) {
+		currentNode = currentNode->next;
+		prevNodePointer = &currentNode->next;
+	}
+	
+	if (currentNode && currentNode->event.time <= time) {
 		*output = currentNode->event;
+		*prevNodePointer = currentNode->next;
+		free(currentNode);
 		return true;
 	}
 	return false;
