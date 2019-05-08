@@ -10,11 +10,10 @@
 SoftwareSerial blueToothSerial(2, 3);
 TinyGPSPlus gps;
 
-int enA = 10;
+int enA = 7;
 int in1 = 5;
 int in2 = 6;
 
-SeaResponse response = SeaResponse_init_zero;
 NavState state;
 
 void setup() {
@@ -128,7 +127,13 @@ void updateNavLibConfig() {
   nav_lib_configuration.power_medium_mode = request.update_configuration.power_medium_mode;
   nav_lib_configuration.knots_to_lock_course = request.update_configuration.knots_to_lock_course;
 }
-    
+
+void populateCommonResponseFields(SeaResponse* response) {
+     response->has_current_destination = true;
+     response->current_destination.lat = current_destination.lat;
+     response->current_destination.lng = current_destination.lng;
+}
+
 void loop () {
   if (readCommand()) {
      if (request.has_update_configuration) {
@@ -136,22 +141,32 @@ void loop () {
        updateNavLibConfig();
        return;
      }
-     Serial.print("Got command lat ");
-     Serial.print(request.nav_request.location.lat, 8);
-     Serial.print(" lng ");
-     Serial.print(request.nav_request.location.lng, 8);
-     Serial.println();
+     if (request.has_trim_request) {
+      SteerCommand cmd;
+      cmd.direction = Left;
+      if (request.trim_request.direction == SteeringDirection_RIGHT) {
+        cmd.direction = Right; 
+      }
+      cmd.power = nav_lib_configuration.power_medium_mode;
+      cmd.millis_duration = request.trim_request.millis;
+      Serial.print(F("Got trim request of "));
+      Serial.print(cmd.millis_duration);
+      Serial.println();
+      steer(cmd);
+      return;
+     }
+     Serial.print(F("Got request lat "));
      current_destination.lat = request.nav_request.location.lat;
      current_destination.lng = request.nav_request.location.lng;
 
+     SeaResponse response;
      uint8_t response_buffer[128];
      response = SeaResponse_init_zero;
      response.response_code = ResponseCode_OK;
-     response.has_current_destination = true;
-     response.current_destination.lat = 123.0f;
-     response.current_destination.lng = 321.0f;
+
+     populateCommonResponseFields(&response);
+
      pb_ostream_t ostream = pb_ostream_from_buffer(response_buffer, sizeof(response_buffer));
-     // Can't encode optional fields here... see https://github.com/nanopb/nanopb/issues/198
      bool status = pb_encode_delimited(&ostream, SeaResponse_fields, &response);
      if (!status) {
        Serial.println(F("Failed to enc response message! Error: "));
@@ -165,6 +180,6 @@ void loop () {
      }
      Serial.print(F("Wrote response of size "));
      Serial.print(ostream.bytes_written);
-     Serial.println(" bytes.");
+     Serial.println(F(" bytes."));
   }
 }

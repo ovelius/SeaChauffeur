@@ -1,7 +1,7 @@
 package se.locutus.seachauffeur
 
 import android.Manifest
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
 import com.google.android.gms.maps.GoogleMap
@@ -14,12 +14,15 @@ import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothAdapter
 import android.content.Intent
 import android.bluetooth.BluetoothSocket
+import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Handler
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
+import android.widget.SeekBar
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.google.android.gms.maps.model.Marker
 import se.locutus.sea_chauffeur.Messages
 import java.io.InputStream
@@ -28,6 +31,8 @@ import java.io.IOException
 import java.lang.Exception
 import java.util.*
 import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlin.math.abs
 
 const val LOCATION_ACCESS_REQUEST_CODE = 99
 
@@ -43,6 +48,10 @@ class NavigationActivity : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+        findViewById<FloatingActionButton>(R.id.trim_button).setOnClickListener{
+            showTrimDialog()
+        }
 
         locationAccessCheck()
         createBtConnection()
@@ -149,8 +158,25 @@ class NavigationActivity : AppCompatActivity(), OnMapReadyCallback {
             Toast.makeText(this, "Sent new destination ${request.navRequest.location.lat} ${request.navRequest.location.lng}",
                 Toast.LENGTH_SHORT).show()
         }
-
     }
+
+    fun sendTrimRequest(millis : Int) {
+        val request = Messages.SeaRequest.newBuilder().setTrimRequest(Messages.SteeringMove.newBuilder()
+            .setDirection(if (millis >= 0) Messages.SteeringDirection.LEFT else Messages.SteeringDirection.RIGHT)
+            .setPower(100) // Not used...
+            .setMillis(abs(millis)))
+            .build()
+        if (mmOutputStream != null) {
+            val array = request.toByteArray()
+            mmOutputStream!!.write(array.size)
+            mmOutputStream!!.write(array)
+
+            Toast.makeText(this, "Sent new destination ${request.navRequest.location.lat} ${request.navRequest.location.lng}",
+                Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    var trimState = 50
 
     var mBluetoothAdapter: BluetoothAdapter? = null
     var mmSocket: BluetoothSocket? = null
@@ -235,5 +261,38 @@ class NavigationActivity : AppCompatActivity(), OnMapReadyCallback {
         mmOutputStream!!.close()
         mmInputStream!!.close()
         mmSocket!!.close()
+    }
+
+    fun showTrimDialog(){
+        val popDialog = AlertDialog.Builder(this)
+        val seek = SeekBar(this)
+        seek.max = 600
+        seek.progress =  seek.max/2
+        trimState =  seek.max/2
+        seek.keyProgressIncrement = 1
+        // Set a SeekBar change listener
+        seek.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+
+            override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
+                // Display the current progress of SeekBar
+//                text_view.text = "Progress : $i"
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
+                // Do something
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                val diff = trimState - seekBar.progress
+                trimState = seekBar.progress
+                sendTrimRequest(diff)
+                Toast.makeText(applicationContext,"Trim diff ${diff}",Toast.LENGTH_SHORT).show()
+            }
+        })
+        popDialog.setIcon(android.R.drawable.btn_star_big_on);
+        popDialog.setTitle("Trim to go straight")
+        popDialog.setView(seek)
+        popDialog.create()
+        popDialog.show()
     }
 }
