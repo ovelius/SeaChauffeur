@@ -270,23 +270,19 @@ class NavigationActivity : AppCompatActivity(), OnMapReadyCallback {
         seek.progress =  seek.max/2
         trimState =  seek.max/2
         seek.keyProgressIncrement = 1
-        // Set a SeekBar change listener
         seek.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
 
             override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
-                // Display the current progress of SeekBar
-//                text_view.text = "Progress : $i"
+
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {
-                // Do something
             }
 
             override fun onStopTrackingTouch(seekBar: SeekBar) {
                 val diff = trimState - seekBar.progress
                 trimState = seekBar.progress
                 sendTrimRequest(diff)
-                Toast.makeText(applicationContext,"Trim diff ${diff}",Toast.LENGTH_SHORT).show()
             }
         })
         popDialog.setIcon(android.R.drawable.btn_star_big_on);
