@@ -1,6 +1,7 @@
 package se.locutus.seachauffeur
 
 import android.Manifest
+import android.app.Dialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
@@ -18,6 +19,9 @@ import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Handler
+import android.os.Message
+import android.widget.Button
+import android.widget.EditText
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -52,6 +56,11 @@ class NavigationActivity : AppCompatActivity(), OnMapReadyCallback {
         findViewById<FloatingActionButton>(R.id.trim_button).setOnClickListener{
             showTrimDialog()
         }
+
+        findViewById<FloatingActionButton>(R.id.settings_button).setOnClickListener{
+            showSettingsDialog()
+        }
+
 
         locationAccessCheck()
         createBtConnection()
@@ -170,9 +179,19 @@ class NavigationActivity : AppCompatActivity(), OnMapReadyCallback {
             val array = request.toByteArray()
             mmOutputStream!!.write(array.size)
             mmOutputStream!!.write(array)
+        }
+    }
 
-            Toast.makeText(this, "Sent new destination ${request.navRequest.location.lat} ${request.navRequest.location.lng}",
-                Toast.LENGTH_SHORT).show()
+    fun sendConfigurationRequest(config : Messages.Configuration) {
+        val request = Messages.SeaRequest.newBuilder()
+            .setUpdateConfiguration(config)
+            .build()
+        if (mmOutputStream != null) {
+            val array = request.toByteArray()
+            mmOutputStream!!.write(array.size)
+            mmOutputStream!!.write(array)
+
+            Toast.makeText(this, "Sent configuration update $config", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -261,6 +280,26 @@ class NavigationActivity : AppCompatActivity(), OnMapReadyCallback {
         mmOutputStream!!.close()
         mmInputStream!!.close()
         mmSocket!!.close()
+    }
+
+    fun showSettingsDialog() {
+        val dialog = Dialog(this)
+        val currentConfig = Messages.Configuration.getDefaultInstance()
+
+        dialog.setContentView(R.layout.settings_dialog)
+        dialog.findViewById<EditText>(R.id.power_medium_mode).setText(currentConfig.powerMediumMode.toString())
+        dialog.findViewById<EditText>(R.id.steering_aggressiveness).setText(currentConfig.millisDurationPerDegreeSecond.toString())
+
+        dialog.findViewById<Button>(R.id.dialogButtonOK).setOnClickListener {
+            val config = Messages.Configuration.newBuilder()
+                .setPowerMediumMode(dialog.findViewById<EditText>(R.id.power_medium_mode).text.toString().toInt())
+                .setMillisDurationPerDegreeSecond(dialog.findViewById<EditText>(R.id.steering_aggressiveness).text.toString().toInt())
+                .build()
+            sendConfigurationRequest(config)
+            dialog.dismiss()
+        }
+        dialog.setTitle("Settings")
+        dialog.show()
     }
 
     fun showTrimDialog(){

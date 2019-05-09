@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" >
+
+    <TextView
+            android:id="@+id/steering_aggressiveness_text"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Steering aggressiveness"
+            />
+    <EditText
+            android:id="@+id/steering_aggressiveness"
+            android:layout_width="fill_parent" android:layout_height="wrap_content"
+            android:inputType="number"
+            android:layout_below="@+id/steering_aggressiveness_text"
+            android:text="" android:hint="millis_duration_per_degree_second" />
+
+    <TextView
+            android:id="@+id/power_medium_mode_text"
+            android:layout_width="fill_parent"
+            android:layout_below="@+id/steering_aggressiveness"
+            android:layout_height="wrap_content"
+            android:text="Power in medium mode"
+    />
+    <EditText
+            android:id="@+id/power_medium_mode"
+            android:layout_width="fill_parent" android:layout_height="wrap_content"
+            android:inputType="number"
+            android:layout_below="@+id/power_medium_mode_text"
+            android:text="" android:hint="power_medium_mode" />
+
+    <Button
+            android:id="@+id/dialogButtonOK"
+            android:layout_width="100px"
+            android:layout_height="wrap_content"
+            android:text=" Ok "
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_below="@+id/power_medium_mode"
+    />
+
+
+
+</RelativeLayout>
