@@ -9,14 +9,13 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothAdapter
 import android.content.Intent
 import android.bluetooth.BluetoothSocket
 import android.content.DialogInterface
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.location.Location
 import android.os.Handler
 import android.os.Message
@@ -27,7 +26,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.google.android.gms.maps.model.Marker
 import se.locutus.sea_chauffeur.Messages
 import java.io.InputStream
 import java.io.OutputStream
@@ -35,6 +33,8 @@ import java.io.IOException
 import java.lang.Exception
 import java.util.*
 import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.model.*
+import com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_YELLOW
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlin.math.abs
 
@@ -68,6 +68,8 @@ class NavigationActivity : AppCompatActivity(), OnMapReadyCallback {
 
 
     var currentDestination : Marker? = null
+    var currentLocation : Marker? = null
+    var courseLine : Polyline? = null
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
@@ -251,6 +253,26 @@ class NavigationActivity : AppCompatActivity(), OnMapReadyCallback {
                 try {
                     val response = Messages.SeaResponse.parseDelimitedFrom(mmInputStream)
                     handler.post{
+                        if (response.hasCurrentLocation()) {
+                            if (currentLocation != null) {
+                                currentLocation!!.remove()
+                            }
+                            if (courseLine != null) {
+                                courseLine!!.remove()
+                            }
+                            val latLng = LatLng(response.currentLocation.lat.toDouble(), response.currentLocation.lng.toDouble())
+                            val dstLatLng = LatLng(response.currentDestination.lat.toDouble(), response.currentDestination.lng.toDouble())
+                            currentLocation =
+                                    mMap.addMarker(MarkerOptions().position(latLng)
+                                        .icon(BitmapDescriptorFactory.defaultMarker(HUE_YELLOW))
+                                        .title("Current location"))
+                            // TODO: This needs to be a proper direction...
+                            courseLine = mMap.addPolyline(PolylineOptions()
+                                .add(latLng, dstLatLng)
+                                .endCap(SquareCap())
+                                .width(5.0f)
+                                .color(Color.RED))
+                        }
                         Toast.makeText(this, "Bluetooth data response code: ${response.responseCode} current destination ${response.currentDestination.lat} ${response.currentDestination.lng}", Toast.LENGTH_SHORT).show()
                     }
                 } catch (ex: IOException) {
