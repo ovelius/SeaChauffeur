@@ -10,9 +10,9 @@
 SoftwareSerial blueToothSerial(2, 3);
 TinyGPSPlus gps;
 
-#define enA 7
+#define enA 6
 #define in1 5
-#define in2 6
+#define in2 7
 
 NavState state;
 
@@ -27,10 +27,10 @@ void setup() {
   nav_lib_configuration.millis_duration_per_degree_second = Configuration_millis_duration_per_degree_second_default;
   nav_lib_configuration.power_low_mode = Configuration_power_low_mode_default;
   nav_lib_configuration.power_medium_mode = Configuration_power_medium_mode_default;
-  nav_lib_configuration.knots_to_lock_course = Configuration_knots_to_lock_course_default;  
+  nav_lib_configuration.knots_to_lock_course = Configuration_knots_to_lock_course_default;
 }
 
-uint8_t buffer[128];
+uint8_t buffer[32];
 uint8_t buffer_pos = 0;
 uint8_t command_size = 0;
 
@@ -102,6 +102,10 @@ void populateCommonResponseFields(SeaResponse* response) {
      response->has_current_destination = true;
      response->current_destination.lat = current_destination.lat;
      response->current_destination.lng = current_destination.lng;
+     response->has_current_location = true;
+     // TODO: Sent back actual location here.
+     response->current_location.lat = current_destination.lat + 0.005f;
+     response->current_location.lng = current_destination.lng + 0.003f;
 }
 
 void loop () {
@@ -128,7 +132,7 @@ void loop () {
      }
   
        SeaResponse response;
-       uint8_t response_buffer[128];
+       uint8_t response_buffer[32];
        response = SeaResponse_init_zero;
        response.response_code = ResponseCode_OK;
   
