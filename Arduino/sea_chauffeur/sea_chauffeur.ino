@@ -28,6 +28,19 @@ void setup() {
   nav_lib_configuration.power_low_mode = Configuration_power_low_mode_default;
   nav_lib_configuration.power_medium_mode = Configuration_power_medium_mode_default;
   nav_lib_configuration.knots_to_lock_course = Configuration_knots_to_lock_course_default;
+
+  // This sequence is to roughly center things. 
+  SteerCommand cmd;
+  cmd.power = 255;
+  cmd.direction = Right;
+  cmd.millis_duration = 8000;
+
+  steer(&cmd);
+
+  cmd.direction = Left;
+  cmd.millis_duration = 2800;
+
+  steer(&cmd);
 }
 
 uint8_t buffer[32];
@@ -70,21 +83,21 @@ void loop2 () {
   SteerCommand cmd = newLocationData(&state, &gpsData);
 
   if (cmd.direction != NoSteer) {
-    steer(cmd);
+    steer(&cmd);
   }
 }
 
-void steer(SteerCommand cmd) {
-  if (cmd.direction == Left) {
+void steer(SteerCommand* cmd) {
+  if (cmd->direction == Left) {
     digitalWrite(in1, LOW);
     digitalWrite(in2, HIGH);  
-  } else  if (cmd.direction == Right) {
+  } else  if (cmd->direction == Right) {
     digitalWrite(in1, HIGH);
     digitalWrite(in2, LOW);   
   }
 
-  analogWrite(enA, cmd.power);
-  delay(cmd.millis_duration);
+  analogWrite(enA, cmd->power);
+  delay(cmd->millis_duration);
 
   digitalWrite(enA, LOW);
   digitalWrite(in1, LOW);
@@ -109,6 +122,10 @@ void populateCommonResponseFields(SeaResponse* response) {
 }
 
 void loop () {
+  // TODO: Reads GPS data here...
+  if (gps.location.isUpdated()) {
+    // Feed lib with location here...
+  }
   SeaRequest request = SeaRequest_init_zero;
   if (readCommand(&request)) {
      if (request.has_update_configuration) {
@@ -125,7 +142,7 @@ void loop () {
       Serial.print(F("Got trim request of "));
       Serial.print(cmd.millis_duration);
       Serial.println();
-      steer(cmd);
+      steer(&cmd);
      } else if (request.has_nav_request) {
        current_destination.lat = request.nav_request.location.lat;
        current_destination.lng = request.nav_request.location.lng;
